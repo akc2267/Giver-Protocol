@@ -204,6 +204,7 @@ const useSend = (): UseSendType => {
         gasPrices: [new Coin(feeDenom, gasPricesFromServer[feeDenom])],
         msgs,
         fee,
+        memo: memoOrToAddress,
       }
 
       const sendId = Date.now()
