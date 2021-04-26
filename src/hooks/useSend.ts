@@ -28,6 +28,7 @@ import { RequestTxResultType, EtherBaseReceiptResultType } from 'types/send'
 import { WalletEnum } from 'types/wallet'
 
 import useEtherBaseContract from './useEtherBaseContract'
+import { useDebouncedCallback } from 'use-debounce/lib'
 
 export type TerraSendFeeInfo = {
   gasPrices: Record<string, string>
@@ -84,19 +85,27 @@ const useSend = (): UseSendType => {
   const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
   const feeDenom = useRecoilValue<AssetNativeDenomEnum>(SendStore.feeDenom)
   const [fee, setFee] = useRecoilState(SendStore.fee)
+  const tax = useRecoilValue(SendStore.tax)
+  const assetList = useRecoilValue(SendStore.loginUserAssetList)
 
   const { getEtherBaseContract } = useEtherBaseContract()
 
-  const getGasPricesFromServer = async (): Promise<void> => {
-    const { data } = await axios.get('/v1/txs/gas_prices', {
-      baseURL: terraLocal.fcd,
-    })
-    setGasPricesFromServer(data)
-  }
+  const getGasPricesFromServer = useDebouncedCallback(
+    async (fcd): Promise<void> => {
+      const { data } = await axios.get('/v1/txs/gas_prices', {
+        baseURL: fcd,
+      })
+      setGasPricesFromServer(data)
+    },
+    300
+  )
 
   useEffect(() => {
-    getGasPricesFromServer()
-  }, [terraLocal])
+    getGasPricesFromServer.callback(terraLocal.fcd)
+    return (): void => {
+      getGasPricesFromServer.cancel()
+    }
+  }, [terraLocal.fcd])
 
   const initSendData = (): void => {
     setAsset(undefined)
@@ -134,32 +143,55 @@ const useSend = (): UseSendType => {
     }[]
   > => {
     if (terraExt) {
-      const msgs = getTerraMsgs()
+      let gas = 200000
+      try {
+        let feeDenoms = [AssetNativeDenomEnum.uusd]
+        const ownedAssetList = assetList.filter(
+          (x) => _.toNumber(x.balance) > 0
+        )
 
-      return Promise.all(
-        _.map(AssetNativeDenomEnum, async (denom) => {
-          try {
-            const lcd = new LCDClient({
-              chainID: terraExt.chainID,
-              URL: terraLocal.lcd,
-              gasPrices: { [denom]: gasPricesFromServer[denom] },
-            })
-            // fee + tax
-            const unsignedTx = await lcd.tx.create(loginUser.address, {
-              msgs,
-              feeDenoms: [denom],
-            })
-            return {
-              denom,
-              fee: unsignedTx.fee,
-            }
-          } catch {
-            return {
-              denom,
+        if (ownedAssetList.length > 0) {
+          if (ownedAssetList.length === 1) {
+            feeDenoms = [ownedAssetList[0].tokenAddress as AssetNativeDenomEnum]
+          } else {
+            const target = ownedAssetList.find(
+              (x) => x.tokenAddress !== asset?.tokenAddress
+            )
+            if (target) {
+              feeDenoms = [target.tokenAddress as AssetNativeDenomEnum]
             }
           }
+        }
+
+        const msgs = getTerraMsgs()
+        const lcd = new LCDClient({
+          chainID: terraExt.chainID,
+          URL: terraLocal.lcd,
+          gasPrices: gasPricesFromServer,
         })
-      )
+        // fee + tax
+        const unsignedTx = await lcd.tx.create(loginUser.address, {
+          msgs,
+          feeDenoms,
+        })
+
+        gas = unsignedTx.fee.gas
+      } catch {
+        // gas is just default value
+      }
+
+      return _.map(AssetNativeDenomEnum, (denom) => {
+        const amount = new BigNumber(gasPricesFromServer[denom])
+          .multipliedBy(gas)
+          .dp(0, BigNumber.ROUND_UP)
+          .toString(10)
+        const gasFee = new Coins({ [denom]: amount })
+        const fee = new StdFee(gas, gasFee)
+        return {
+          denom,
+          fee,
+        }
+      })
     }
     return []
   }
@@ -198,15 +230,15 @@ const useSend = (): UseSendType => {
         : // if send to ether-base then memo must be to-address
           toAddress
     const msgs = getTerraMsgs()
+    const txFee = tax && fee ? new StdFee(fee.gas, fee.amount.add(tax)) : fee
+    const tx: CreateTxOptions = {
+      gasPrices: [new Coin(feeDenom, gasPricesFromServer[feeDenom])],
+      msgs,
+      fee: txFee,
+      memo: memoOrToAddress,
+    }
 
     if (loginUser.walletConnect) {
-      const tx: CreateTxOptions = {
-        gasPrices: [new Coin(feeDenom, gasPricesFromServer[feeDenom])],
-        msgs,
-        fee,
-        memo: memoOrToAddress,
-      }
-
       const sendId = Date.now()
       const params = [
         {
@@ -246,12 +278,7 @@ const useSend = (): UseSendType => {
         }
       }
     } else {
-      const result = await terraService.post({
-        msgs,
-        memo: memoOrToAddress,
-        gasPrices: { [feeDenom]: gasPricesFromServer[feeDenom] },
-        fee,
-      })
+      const result = await terraService.post(tx)
 
       if (result.success && result.result) {
         return {
