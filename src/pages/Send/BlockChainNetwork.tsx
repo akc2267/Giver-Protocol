@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import electric from 'images/electric.gif'
 
-import { NETWORK, STYLE } from 'consts'
+import { NETWORK } from 'consts'
 
 import { BlockChainType } from 'types/network'
 
@@ -54,7 +54,7 @@ const BlockChainNetwork = (): ReactElement => {
 
   useEffect(() => {
     if (initPage) {
-      if (STYLE.isSupportBrowser && false === isLoggedIn) {
+      if (false === isLoggedIn) {
         selectWallet.open()
       }
 

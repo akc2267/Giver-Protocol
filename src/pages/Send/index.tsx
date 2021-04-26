@@ -1,7 +1,6 @@
 import { ReactElement, useCallback, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { InfoCircleFill } from 'react-bootstrap-icons'
 import _ from 'lodash'
 
 import loading from 'images/loading.gif'
@@ -41,24 +40,9 @@ const StyledContainer = styled(Container)`
   max-width: 640px;
   padding: 0;
   height: 100%;
-  @media (max-width: 575px) {
-    padding: 20px 0;
+  @media ${STYLE.media.mobile} {
     width: 100vw;
     overflow-x: hidden;
-  }
-`
-
-const StyledMoblieInfoBox = styled.div`
-  margin-bottom: 20px;
-  border-radius: 1em;
-  padding: 12px;
-  border: 1px solid ${COLOR.terraSky};
-  color: ${COLOR.terraSky};
-  font-size: 12px;
-  font-weight: 500;
-  @media (max-width: 575px) {
-    margin-left: 20px;
-    margin-right: 20px;
   }
 `
 
@@ -66,9 +50,9 @@ const StyledForm = styled.div`
   background-color: ${COLOR.black};
   padding: 60px;
   border-radius: 1em;
-  @media (max-width: 575px) {
+  @media ${STYLE.media.mobile} {
     border-radius: 0;
-    padding: 20px;
+    padding: 38px 24px 20px;
   }
 `
 
@@ -137,13 +121,6 @@ const Send = (): ReactElement => {
 
   return (
     <StyledContainer>
-      {false === STYLE.isSupportBrowser && (
-        <StyledMoblieInfoBox>
-          <InfoCircleFill style={{ marginRight: 8, marginTop: -2 }} size={14} />
-          Bridge only supports desktop Chrome
-        </StyledMoblieInfoBox>
-      )}
-
       <StyledForm key={_.toString(isLoggedIn)}>
         {/* FormTitle */}
         <FormTitle

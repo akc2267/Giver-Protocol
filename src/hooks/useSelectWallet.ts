@@ -1,11 +1,8 @@
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 
 import SelectWalletStore, {
   SelectWalletModalType,
 } from 'store/SelectWalletStore'
-import SendStore from 'store/SendStore'
-
-import { BlockChainType } from 'types/network'
 
 const useSelectWallet = (): {
   open: () => void
@@ -14,14 +11,9 @@ const useSelectWallet = (): {
   const setIsVisibleModalType = useSetRecoilState(
     SelectWalletStore.isVisibleModalType
   )
-  const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
 
   const open = async (): Promise<void> => {
-    if (fromBlockChain === BlockChainType.terra) {
-      setIsVisibleModalType(SelectWalletModalType.terraBaseModal)
-    } else {
-      setIsVisibleModalType(SelectWalletModalType.etherBaseModal)
-    }
+    setIsVisibleModalType(SelectWalletModalType.selectWallet)
   }
 
   const closeModal = (): void => {

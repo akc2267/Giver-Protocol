@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 import { STYLE } from 'consts'
 
-import { ExtLink, Text, Container, Row, Col } from 'components'
+import { ExtLink, Text, Row, Col } from 'components'
 
-const StyledContainer = styled(Container)`
+const StyledContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,7 +15,8 @@ const StyledContainer = styled(Container)`
   margin-bottom: 28px;
   opacity: 0.5;
   @media ${STYLE.media.mobile} {
-    min-height: 100px;
+    margin-top: 0;
+    padding: 24px;
   }
 `
 
@@ -52,8 +53,7 @@ const Footer = (): ReactElement => {
                 <ExtLink
                   href={href}
                   style={{
-                    paddingLeft: 15,
-                    paddingRight: 15,
+                    paddingLeft: 30,
                     fontSize: 13,
                     textTransform: 'uppercase',
                   }}

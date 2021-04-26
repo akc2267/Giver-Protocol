@@ -2,7 +2,7 @@ import { ReactElement, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import _ from 'lodash'
 
-import { COLOR, STYLE } from 'consts'
+import { COLOR } from 'consts'
 import { BlockChainType } from 'types/network'
 import { RequestTxResultType, ValidateItemResultType } from 'types/send'
 
@@ -128,12 +128,7 @@ const SendFormButton = ({
   return isLoggedIn ? (
     <NextButton />
   ) : (
-    <Button
-      disabled={false === STYLE.isSupportBrowser}
-      onClick={selectWallet.open}
-    >
-      Connect Wallet
-    </Button>
+    <Button onClick={selectWallet.open}>Connect Wallet</Button>
   )
 }
 

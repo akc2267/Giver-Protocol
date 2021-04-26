@@ -26,8 +26,8 @@ const StyledNav = styled.div`
   justify-content: space-between;
   padding-top: 47px;
   padding-bottom: 19px;
-  @media (max-width: 767px) {
-    padding: 15px 0;
+  @media ${STYLE.media.mobile} {
+    padding: 20px 24px;
   }
 `
 
@@ -37,7 +37,7 @@ const StyledLogo = styled(Text)`
     width: 120px;
     height: 30px;
   }
-  @media (max-width: 575px) {
+  @media ${STYLE.media.mobile} {
     img {
       width: 104px;
       height: 26px;
@@ -196,13 +196,11 @@ const Header = (): ReactElement => {
         {isLoggedIn ? (
           <LoginUserInfo />
         ) : (
-          STYLE.isSupportBrowser && (
-            <div>
-              <StyledConnectWallet onClick={selectWallet.open}>
-                Connect Wallet
-              </StyledConnectWallet>
-            </div>
-          )
+          <div>
+            <StyledConnectWallet onClick={selectWallet.open}>
+              Connect Wallet
+            </StyledConnectWallet>
+          </div>
         )}
       </StyledNav>
     </StyledContainer>

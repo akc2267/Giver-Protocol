@@ -1,15 +1,14 @@
-import { Fragment, ReactElement, useEffect } from 'react'
+import { ReactElement, useEffect } from 'react'
 import styled from 'styled-components'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { ethers } from 'ethers'
 
-import { COLOR, STYLE } from 'consts'
-
 import useAuth from 'hooks/useAuth'
-import Button from 'components/Button'
 import Text from 'components/Text'
 import DefaultModal from 'components/Modal'
 
+import terraWalletConnectService from 'services/terraWalletConnectService'
+import terraService from 'services/terraService'
 import walletConnectService from 'services/walletConnectService'
 import coinBaseService from 'services/coinBaseService'
 import metaMaskService from 'services/metaMaskService'
@@ -22,33 +21,11 @@ import SendStore from 'store/SendStore'
 
 import { WalletEnum } from 'types/wallet'
 import { BlockChainType } from 'types/network'
-import WalletLogo from 'components/WalletLogo'
+
+import WalletButton from './WalletButton'
 
 const StyledContainer = styled.div`
   padding: 0 25px 40px;
-`
-
-const StyledWalletButton = styled(Button)`
-  border-radius: ${STYLE.css.borderRadius};
-  padding: 16px;
-  margin: 8px 0px;
-  border: 1px solid #1e2026;
-  transition: all 0.3s ease 0s;
-  background: ${COLOR.darkGray};
-  color: ${COLOR.white};
-  overflow: hidden;
-
-  :hover {
-    border-color: ${COLOR.terraSky};
-    background: ${COLOR.darkGray};
-  }
-`
-
-const StyledButtonContents = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 `
 
 const SelectEtherBaseWalletModal = (): ReactElement => {
@@ -59,6 +36,53 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
     SelectWalletStore.isVisibleModalType
   )
 
+  const onClickTerraExtension = async (): Promise<void> => {
+    const terraExtInstalled = terraService.checkInstalled()
+    if (terraExtInstalled) {
+      const result = await terraService.connect()
+
+      await login({
+        user: {
+          address: result.address,
+          walletType: WalletEnum.TerraExtension,
+        },
+      })
+    } else {
+      setIsVisibleModalType(SelectWalletModalType.terraExtInstall)
+    }
+  }
+
+  const onClickTerraWalletConnect = async (): Promise<void> => {
+    try {
+      const connector = await terraWalletConnectService.connect()
+      if (connector.connected) {
+        login({
+          user: {
+            address: connector.accounts[0],
+            walletConnect: connector,
+            walletType: WalletEnum.TerraWalletConnect,
+          },
+        })
+      } else {
+        connector.on('connect', (error, payload) => {
+          if (error) {
+            throw error
+          }
+          const address = payload.params[0].accounts[0]
+          login({
+            user: {
+              address,
+              walletConnect: connector,
+              walletType: WalletEnum.TerraWalletConnect,
+            },
+          })
+        })
+      }
+    } catch (e) {
+      // if user close connect modal then error
+      console.log(e)
+    }
+  }
   const onClickBinanceChain = async (): Promise<void> => {
     if (bscService.checkInstalled()) {
       const { address, provider } = await bscService.connect()
@@ -126,58 +150,47 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
     }
   }
 
-  const buttons =
-    fromBlockChain === BlockChainType.ethereum
-      ? [
-          {
-            logo: <WalletLogo walleEnum={WalletEnum.MetaMask} />,
-            label: 'Metamask',
-            onClick: onClickMetamask,
-          },
-          {
-            logo: <WalletLogo walleEnum={WalletEnum.WalletConnect} />,
-            label: 'WalletConnect',
-            onClick: onClickWalletConnect,
-          },
-          {
-            logo: <WalletLogo walleEnum={WalletEnum.CoinbaseWallet} />,
-            label: 'Coinbase Wallet',
-            onClick: onClickCoinbase,
-          },
-        ]
-      : [
-          {
-            logo: <WalletLogo walleEnum={WalletEnum.Binance} />,
-            label: 'BinanceChain',
-            onClick: onClickBinanceChain,
-          },
-          {
-            logo: <WalletLogo walleEnum={WalletEnum.MetaMask} />,
-            label: 'Metamask',
-            onClick: onClickMetamask,
-          },
-        ]
+  const onClickWallet = (wallet: WalletEnum): void => {
+    switch (wallet) {
+      case WalletEnum.Binance:
+        onClickBinanceChain()
+        break
+      case WalletEnum.MetaMask:
+        onClickMetamask()
+        break
+      case WalletEnum.CoinbaseWallet:
+        onClickCoinbase()
+        break
+      case WalletEnum.WalletConnect:
+        onClickWalletConnect()
+        break
+      case WalletEnum.TerraExtension:
+        onClickTerraExtension()
+        break
+      case WalletEnum.TerraWalletConnect:
+        onClickTerraWalletConnect()
+        break
+    }
+  }
+
+  let buttons = [WalletEnum.TerraExtension, WalletEnum.TerraWalletConnect]
+  if (fromBlockChain === BlockChainType.ethereum) {
+    buttons = [
+      WalletEnum.MetaMask,
+      WalletEnum.WalletConnect,
+      WalletEnum.CoinbaseWallet,
+    ]
+  } else if (fromBlockChain === BlockChainType.bsc) {
+    buttons = [WalletEnum.Binance, WalletEnum.MetaMask]
+  }
 
   useEffect(() => {
     const { lastWalletType } = getLoginStorage()
     if (
-      isVisibleModalType === SelectWalletModalType.etherBaseModal &&
+      isVisibleModalType === SelectWalletModalType.selectWallet &&
       lastWalletType
     ) {
-      switch (lastWalletType) {
-        case WalletEnum.Binance:
-          onClickBinanceChain()
-          break
-        case WalletEnum.MetaMask:
-          onClickMetamask()
-          break
-        case WalletEnum.CoinbaseWallet:
-          onClickCoinbase()
-          break
-        case WalletEnum.WalletConnect:
-          onClickWalletConnect()
-          break
-      }
+      onClickWallet(lastWalletType)
       setLoginStorage()
       setIsVisibleModalType(undefined)
     }
@@ -186,7 +199,7 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
   return (
     <DefaultModal
       {...{
-        isOpen: isVisibleModalType === SelectWalletModalType.etherBaseModal,
+        isOpen: isVisibleModalType === SelectWalletModalType.selectWallet,
         close: (): void => {
           setIsVisibleModalType(undefined)
         },
@@ -194,20 +207,15 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
       header={<Text style={{ justifyContent: 'center' }}>Connect Wallet</Text>}
     >
       <StyledContainer>
-        {buttons.map(({ logo, label, onClick }) => (
-          <Fragment key={label}>
-            <StyledWalletButton
-              onClick={(): void => {
-                setIsVisibleModalType(undefined)
-                onClick()
-              }}
-            >
-              <StyledButtonContents>
-                <span>{label}</span>
-                {logo}
-              </StyledButtonContents>
-            </StyledWalletButton>
-          </Fragment>
+        {buttons.map((wallet, i) => (
+          <WalletButton
+            key={`wallet-${i}`}
+            onClick={(): void => {
+              setIsVisibleModalType(undefined)
+              onClickWallet(wallet)
+            }}
+            wallet={wallet}
+          />
         ))}
       </StyledContainer>
     </DefaultModal>

@@ -1,8 +1,7 @@
 import { atom } from 'recoil'
 
 export enum SelectWalletModalType {
-  terraBaseModal,
-  etherBaseModal,
+  selectWallet,
   terraExtInstall,
   bscInstall,
 }

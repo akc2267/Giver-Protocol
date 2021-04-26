@@ -8,7 +8,7 @@ import NetworkStore from './NetworkStore'
 
 export const initLoginUser: User = {
   address: '',
-  walletType: WalletEnum.TerraStation,
+  walletType: WalletEnum.TerraExtension,
 }
 
 const loginUser = atom<User>({

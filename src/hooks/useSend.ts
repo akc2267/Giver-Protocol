@@ -272,9 +272,17 @@ const useSend = (): UseSendType => {
           hash: result.txhash,
         }
       } catch (error) {
+        const jsonMsg = UTIL.jsonTryParse<{
+          id: number
+          errorCode?: number
+          message: string
+          txHash?: string
+          raw_message?: any
+        }>(error.message)
+        const errorMessage = jsonMsg?.message || _.toString(error)
         return {
           success: false,
-          errorMessage: _.toString(error),
+          errorMessage,
         }
       }
     } else {

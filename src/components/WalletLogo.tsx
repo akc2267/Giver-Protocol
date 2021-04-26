@@ -17,7 +17,7 @@ interface IconProps extends SVGAttributes<SVGElement> {
 }
 
 const walletLogo: Record<WalletEnum, string | ComponentType<IconProps>> = {
-  [WalletEnum.TerraStation]: TerraPng,
+  [WalletEnum.TerraExtension]: TerraPng,
   [WalletEnum.Binance]: BinancePng,
   [WalletEnum.MetaMask]: MetamaskPng,
   [WalletEnum.WalletConnect]: WalletConnectPng,
