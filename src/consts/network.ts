@@ -24,7 +24,8 @@ const ETH_CHAINID = {
   BSC_TEST: 97,
 }
 
-const INFURAID = '87ae9df0054a4467b5de8501e80bc07c'
+const INFURAID =
+  process.env.REACT_APP_INFURAID || 'a2efa9feabf84deb8f4dc696adf8f360'
 
 const TERRA_EXTENSION = 'https://terra.money/extension'
 const BSC_EXTENSION =

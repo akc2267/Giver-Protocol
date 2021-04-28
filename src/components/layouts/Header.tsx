@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
 import { Dropdown } from 'react-bootstrap'
+import { isBrowser, isMobile } from 'react-device-detect'
 
 import { COLOR, UTIL, STYLE } from 'consts'
 
@@ -14,9 +15,14 @@ import AuthStore from 'store/AuthStore'
 import NetworkStore from 'store/NetworkStore'
 
 import bridgeLogo from 'images/bridge_logo.png'
+import testnetLabel from 'images/testnet_label.png'
 import WalletLogo from 'components/WalletLogo'
+import FormImage from 'components/FormImage'
 
 const StyledContainer = styled(Container)`
+  position: relative;
+`
+const StyledNavContainer = styled(Container)`
   max-width: 640px;
 `
 
@@ -118,6 +124,12 @@ const StyledConnectedText = styled(Text)`
   color: ${COLOR.terraSky};
 `
 
+const StyledTestnetLabel = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`
+
 const LoginUserInfo = (): ReactElement => {
   const isTestnet = useRecoilValue(NetworkStore.isTestnet)
   const loginUser = useRecoilValue(AuthStore.loginUser)
@@ -147,32 +159,37 @@ const LoginUserInfo = (): ReactElement => {
             size={16}
           />
           <StyledAddress>{UTIL.truncate(loginUser.address)}</StyledAddress>
-          <div
-            style={{
-              display: 'inline-block',
-              width: 1,
-              height: 14,
-              backgroundColor: 'white',
-              opacity: 0.4,
-              margin: '0 8px',
-            }}
-          />
-          <div
-            style={{
-              display: 'inline-block',
-              textAlign: 'center',
-            }}
-          >
-            {isTestnet ? (
-              <>
-                <StyledConnectedText style={{ color: '#DD794A' }}>
-                  Connected to TESTNET
-                </StyledConnectedText>
-              </>
-            ) : (
-              <StyledConnectedText>Connected</StyledConnectedText>
-            )}
-          </div>
+
+          {isBrowser && (
+            <>
+              <div
+                style={{
+                  display: 'inline-block',
+                  width: 1,
+                  height: 14,
+                  backgroundColor: 'white',
+                  opacity: 0.4,
+                  margin: '0 8px',
+                }}
+              />
+              <div
+                style={{
+                  display: 'inline-block',
+                  textAlign: 'center',
+                }}
+              >
+                {isTestnet ? (
+                  <>
+                    <StyledConnectedText style={{ color: '#DD794A' }}>
+                      Connected to TESTNET
+                    </StyledConnectedText>
+                  </>
+                ) : (
+                  <StyledConnectedText>Connected</StyledConnectedText>
+                )}
+              </div>
+            </>
+          )}
         </StyledLoginUserInfoBox>
       </Dropdown.Toggle>
 
@@ -186,23 +203,32 @@ const LoginUserInfo = (): ReactElement => {
 const Header = (): ReactElement => {
   const selectWallet = useSelectWallet()
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
+  const isTestnet = useRecoilValue(NetworkStore.isTestnet)
 
   return (
     <StyledContainer>
-      <StyledNav>
-        <StyledLogo>
-          <img src={bridgeLogo} alt="" />
-        </StyledLogo>
-        {isLoggedIn ? (
-          <LoginUserInfo />
-        ) : (
-          <div>
-            <StyledConnectWallet onClick={selectWallet.open}>
-              Connect Wallet
-            </StyledConnectWallet>
-          </div>
-        )}
-      </StyledNav>
+      <StyledNavContainer>
+        <StyledNav>
+          <StyledLogo>
+            <img src={bridgeLogo} alt="" />
+          </StyledLogo>
+          {isLoggedIn ? (
+            <LoginUserInfo />
+          ) : (
+            <div>
+              <StyledConnectWallet onClick={selectWallet.open}>
+                Connect Wallet
+              </StyledConnectWallet>
+            </div>
+          )}
+        </StyledNav>
+      </StyledNavContainer>
+
+      {isMobile && isTestnet && (
+        <StyledTestnetLabel>
+          <FormImage src={testnetLabel} style={{ width: 60, height: 60 }} />
+        </StyledTestnetLabel>
+      )}
     </StyledContainer>
   )
 }

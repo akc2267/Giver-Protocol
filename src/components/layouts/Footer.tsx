@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 import { STYLE } from 'consts'
 
-import { ExtLink, Text, Row, Col } from 'components'
+import { ExtLink, Text, Row, Col, Container } from 'components'
 
-const StyledContainer = styled.div`
+const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,6 +15,7 @@ const StyledContainer = styled.div`
   margin-bottom: 28px;
   opacity: 0.5;
   @media ${STYLE.media.mobile} {
+    width: auto;
     margin-top: 0;
     padding: 24px;
   }

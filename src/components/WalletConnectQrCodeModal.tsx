@@ -4,7 +4,14 @@ import QRCode from 'qrcode.react'
 import { render } from 'react-dom'
 import styled, { keyframes } from 'styled-components'
 import { isMobile } from 'react-device-detect'
-import { Button } from 'components'
+import useCopyClipboard from 'react-use-clipboard'
+
+import { Button, Text } from 'components'
+
+const StyledCopyText = styled(Text)`
+  cursor: pointer;
+  color: #ccc;
+`
 
 export class TerraWalletconnectQrcodeModal implements IQRCodeModal {
   modalContainer: HTMLDivElement | null = null
@@ -57,11 +64,20 @@ const TerraQRCodeModalBase = ({
     uri
   )} `
 
+  const [isCopied, setCopied] = useCopyClipboard(value, {
+    successDuration: 1000 * 5,
+  })
+
   return (
     <div className={className}>
       <div onClick={onClose} />
       <figure>
         <QRCode value={value} size={300} />
+        <div>
+          <StyledCopyText onClick={setCopied}>
+            Copy Clipboard{isCopied ? ' (Copied)' : ''}
+          </StyledCopyText>
+        </div>
         {isMobile && (
           <Button
             onClick={(): void => {

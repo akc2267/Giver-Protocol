@@ -13,9 +13,6 @@ import NetworkErrorScreen from './NetworkErrorScreen'
 
 import useApp from './useApp'
 import useReloadOnNetworkChange from './useReloadOnNetworkChange'
-import { useRecoilValue } from 'recoil'
-import AuthStore from 'store/AuthStore'
-import useAuth from 'hooks/useAuth'
 
 const StyledContainer = styled.div`
   color: white;
@@ -25,8 +22,6 @@ const StyledContainer = styled.div`
 const App = (): ReactElement => {
   const [initComplete, setInitComplete] = useState(false)
   useReloadOnNetworkChange()
-  const loginUser = useRecoilValue(AuthStore.loginUser)
-  const { logout } = useAuth()
 
   const { initApp } = useApp()
   useEffect(() => {
@@ -34,14 +29,6 @@ const App = (): ReactElement => {
       setInitComplete(true)
     })
   }, [])
-
-  useEffect(() => {
-    if (loginUser.walletConnect) {
-      loginUser.walletConnect.on('disconnect', (): void => {
-        logout()
-      })
-    }
-  }, [loginUser])
 
   return (
     <BrowserRouter>

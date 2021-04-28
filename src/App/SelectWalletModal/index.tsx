@@ -55,6 +55,10 @@ const SelectEtherBaseWalletModal = (): ReactElement => {
   const onClickTerraWalletConnect = async (): Promise<void> => {
     try {
       const connector = await terraWalletConnectService.connect()
+      connector.on('disconnect', (): void => {
+        logout()
+      })
+
       if (connector.connected) {
         login({
           user: {
