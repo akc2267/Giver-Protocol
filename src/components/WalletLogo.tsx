@@ -1,5 +1,4 @@
 import { ComponentType, ReactElement, SVGAttributes } from 'react'
-import { Wifi } from 'react-bootstrap-icons'
 
 import { COLOR } from 'consts'
 
@@ -21,7 +20,7 @@ const walletLogo: Record<WalletEnum, string | ComponentType<IconProps>> = {
   [WalletEnum.Binance]: BinancePng,
   [WalletEnum.MetaMask]: MetamaskPng,
   [WalletEnum.WalletConnect]: WalletConnectPng,
-  [WalletEnum.TerraWalletConnect]: Wifi,
+  [WalletEnum.TerraWalletConnect]: WalletConnectPng,
   [WalletEnum.CoinbaseWallet]: CoinbaseWalletPng,
 }
 
