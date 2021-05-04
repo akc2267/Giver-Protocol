@@ -11,21 +11,28 @@ const symbolOfDenom: Record<AssetNativeDenomEnum, AssetSymbolEnum> = {
   // [AssetNativeDenomEnum.umnt]: AssetSymbolEnum.MNT,
 }
 
-// const terraDenoms = {
-//   [symbolOfDenom[AssetNativeDenomEnum.ukrw]]: AssetNativeDenomEnum.ukrw,
-//   [symbolOfDenom[AssetNativeDenomEnum.uusd]]: AssetNativeDenomEnum.uusd,
-//   [symbolOfDenom[AssetNativeDenomEnum.usdr]]: AssetNativeDenomEnum.usdr,
-//   [symbolOfDenom[AssetNativeDenomEnum.umnt]]: AssetNativeDenomEnum.umnt,
-// }
+const terraDenoms = {
+  // [symbolOfDenom[AssetNativeDenomEnum.ukrw]]: AssetNativeDenomEnum.ukrw,
+  [symbolOfDenom[AssetNativeDenomEnum.uusd]]: AssetNativeDenomEnum.uusd,
+  // [symbolOfDenom[AssetNativeDenomEnum.usdr]]: AssetNativeDenomEnum.usdr,
+  // [symbolOfDenom[AssetNativeDenomEnum.umnt]]: AssetNativeDenomEnum.umnt,
+}
 
-// const nativeDenoms = {
-//   ...terraDenoms,
-//   [symbolOfDenom[AssetNativeDenomEnum.uluna]]: AssetNativeDenomEnum.uluna,
-// }
+const nativeDenoms = {
+  ...terraDenoms,
+  // [symbolOfDenom[AssetNativeDenomEnum.uluna]]: AssetNativeDenomEnum.uluna,
+}
 
 // DWB = 'Doctors Without Borders',
 // CATF = 'Clean Air Task Force',
 // AI = 'Amnesty International'
+
+const USTasset = {
+  symbol: AssetSymbolEnum.UST,
+  name: 'Terra USD',
+  loguURI: 'https://assets.terra.money/icon/60/UST.png',
+  tokenAddress: '',
+};
 
 const assetList: AssetType[] = [
   {
@@ -50,7 +57,8 @@ const assetList: AssetType[] = [
 ]
 export default {
   assetList,
-  // nativeDenoms,
+  USTasset,
+  nativeDenoms,
   symbolOfDenom,
   TERRA_DECIMAL,
   ETHER_BASE_DECIMAL,

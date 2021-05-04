@@ -2,7 +2,8 @@ import { Coin, StdFee } from '@terra-money/terra.js'
 import BigNumber from 'bignumber.js'
 import { atom } from 'recoil'
 
-import { AssetNativeDenomEnum, AssetType, AssetSymbolEnum } from 'types/asset'
+import { AssetNativeDenomEnum, AssetType } from 'types/asset'
+import { ASSET } from 'consts'
 import { BlockChainType } from 'types/network'
 import { ValidateResultType } from 'types/send'
 
@@ -12,13 +13,8 @@ const asset = atom<AssetType | undefined>({
   default: undefined,
 })
 const USTWallet = atom<AssetType | undefined>({
-  key: 'sendAsset',
-  default: {
-    symbol: AssetSymbolEnum.UST,
-    name: 'Terra USD',
-    loguURI: 'https://assets.terra.money/icon/60/UST.png',
-    tokenAddress: '',
-  },
+  key: 'wallet',
+  default: ASSET.USTasset,
 })
 const toAddress = atom<string>({
   key: 'sendToAddress',
@@ -52,6 +48,11 @@ const gasPrices = atom<Record<string, string>>({
 
 const loginUserAssetList = atom<AssetType[]>({
   key: 'loginUserAssetList',
+  default: [],
+})
+
+const loginUserUSTWallet = atom<AssetType[]>({
+  key: 'loginUserUSTWallet',
   default: [],
 })
 
@@ -106,6 +107,7 @@ export default {
   gasPrices,
 
   loginUserAssetList,
+  loginUserUSTWallet,
   feeDenom,
   gasFeeList,
   gasFee,
