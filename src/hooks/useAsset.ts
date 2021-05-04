@@ -32,7 +32,7 @@ const useAsset = (): {
 
   const getTerraWhiteList = async (): Promise<WhiteListType> => {
     return {
-      ...ASSET.nativeDenoms,
+      // ...ASSET.nativeDenoms,
       ...terraWhiteList,
     }
   }
@@ -70,7 +70,8 @@ const useAsset = (): {
         whiteList = await getTerraWhiteList()
         balanceList = await getTerraBalances({
           terraWhiteList: _.map(whiteList, (token) => ({ token })),
-        })
+        });
+        console.log('BALANCE LIST', balanceList);
       } else if (fromBlockChain === BlockChainType.ethereum) {
         whiteList = ethWhiteList
         balanceList = await getEtherBalances({ whiteList })

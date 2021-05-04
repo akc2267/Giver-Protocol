@@ -112,8 +112,9 @@ const SendForm = ({
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
   // Send Data
-  const asset = useRecoilValue(SendStore.asset)
-  const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
+  // const asset = useRecoilValue(SendStore.asset)
+  const USTWallet = useRecoilValue(SendStore.USTWallet)
+  // const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
   const [memo, setMemo] = useRecoilState(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
@@ -139,9 +140,9 @@ const SendForm = ({
   const { getTerraFeeList, getTerraSendTax } = useSend()
   const { validateSendData } = useSendValidate()
 
-  const onChangeToAddress = ({ value }: { value: string }): void => {
-    setToAddress(value)
-  }
+  // const onChangeToAddress = ({ value }: { value: string }): void => {
+  //   setToAddress(value)
+  // }
 
   const onChangeAmount = ({ value }: { value: string }): void => {
     if (_.isEmpty(value)) {
@@ -166,9 +167,10 @@ const SendForm = ({
   }
 
   const onClickMaxButton = async (): Promise<void> => {
-    const assetAmount = new BigNumber(asset?.balance || 0)
+    console.log('BALANCE', USTWallet?.balance);
+    const assetAmount = new BigNumber(USTWallet?.balance || 0)
     const terraTax = await getTerraSendTax({
-      denom: asset?.tokenAddress as AssetNativeDenomEnum,
+      denom: USTWallet?.tokenAddress as AssetNativeDenomEnum,
       feeDenom,
       amount: assetAmount.toString(10),
     })
@@ -186,7 +188,7 @@ const SendForm = ({
       const sendAmount = new BigNumber(amount)
       if (sendAmount.isGreaterThan(0)) {
         getTerraShuttleFee({
-          denom: asset?.tokenAddress || '',
+          denom: USTWallet?.tokenAddress || '',
           amount: sendAmount,
         }).then((shuttleFee) => {
           setShuttleFee(shuttleFee)
@@ -210,10 +212,10 @@ const SendForm = ({
       isLoggedIn &&
       fromBlockChain === BlockChainType.terra &&
       amount &&
-      feeDenom &&
-      toAddress
+      feeDenom
+      // toAddress
 
-    if (asset?.tokenAddress && ableToGetFeeInfo) {
+    if (USTWallet?.tokenAddress && ableToGetFeeInfo) {
       if (sendDataResult.isValid) {
         // get terra Send Fee Info
         const terraFeeList = await getTerraFeeList()
@@ -221,7 +223,7 @@ const SendForm = ({
       }
 
       const terraTax = await getTerraSendTax({
-        denom: asset?.tokenAddress as AssetNativeDenomEnum,
+        denom: USTWallet?.tokenAddress as AssetNativeDenomEnum,
         feeDenom,
         amount,
       })
@@ -237,7 +239,7 @@ const SendForm = ({
     return (): void => {
       dbcGetFeeInfoWithValidation.cancel()
     }
-  }, [amount, toAddress, toBlockChain, memo, asset?.tokenAddress])
+  }, [amount, toBlockChain, memo, USTWallet?.tokenAddress])
 
   useEffect(() => {
     getAssetList()
@@ -260,11 +262,11 @@ const SendForm = ({
       <StyledFormSection>
         <Row>
           <Col>
-            <FormLabel title={'Asset'} />
+            <FormLabel title={'Charity'} />
           </Col>
           <RefreshButton />
         </Row>
-        <AssetList {...{ selectedAsset: asset, onChangeAmount }} />
+        <AssetList {...{ selectedAsset: USTWallet, onChangeAmount }} />
 
         <FormErrorMessage errorMessage={validationResult.errorMessage?.asset} />
       </StyledFormSection>
@@ -291,7 +293,7 @@ const SendForm = ({
         )}
       </StyledFormSection>
 
-      <StyledFormSection>
+      {/* <StyledFormSection>
         <FormLabelInput
           inputProps={{
             value: toAddress,
@@ -304,7 +306,7 @@ const SendForm = ({
         <FormErrorMessage
           errorMessage={validationResult.errorMessage?.toAddress}
         />
-      </StyledFormSection>
+      </StyledFormSection> */}
 
       {fromBlockChain === BlockChainType.terra &&
         toBlockChain === BlockChainType.terra && (

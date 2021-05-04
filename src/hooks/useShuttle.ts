@@ -96,24 +96,24 @@ const useShuttle = (): {
     }[] = fetchResult?.OracleDenomsExchangeRates.Result || []
 
     if (_.some(denomLunaPriceList)) {
-      const uusdLunaPrice = new BigNumber(
-        denomLunaPriceList.find((x) => x.Denom === AssetNativeDenomEnum.uusd)
-          ?.Amount || 1
-      )
-      const targetLunaPrice =
-        denom === AssetNativeDenomEnum.uluna
-          ? new BigNumber(1)
-          : new BigNumber(
-              denomLunaPriceList.find((x) => x.Denom === denom)?.Amount || 1
-            )
-      const oneUstValueTargetPrice = targetLunaPrice
-        .div(uusdLunaPrice)
-        .times(ASSET.TERRA_DECIMAL)
-        .dp(0)
+      // const uusdLunaPrice = new BigNumber(
+      //   denomLunaPriceList.find((x) => x.Denom === AssetNativeDenomEnum.uusd)
+      //     ?.Amount || 1
+      // )
+      // const targetLunaPrice =
+      //   denom === AssetNativeDenomEnum.uluna
+      //     ? new BigNumber(1)
+      //     : new BigNumber(
+      //         denomLunaPriceList.find((x) => x.Denom === denom)?.Amount || 1
+      //       )
+      // const oneUstValueTargetPrice = targetLunaPrice
+      //   .div(uusdLunaPrice)
+      //   .times(ASSET.TERRA_DECIMAL)
+      //   .dp(0)
 
-      return zeroDotOnePerAmount.isGreaterThan(oneUstValueTargetPrice)
-        ? zeroDotOnePerAmount
-        : oneUstValueTargetPrice
+      // return zeroDotOnePerAmount.isGreaterThan(oneUstValueTargetPrice)
+      //   ? zeroDotOnePerAmount
+      //   : oneUstValueTargetPrice
     }
     return new BigNumber(0)
   }

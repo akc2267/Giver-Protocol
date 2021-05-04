@@ -26,7 +26,7 @@ const StyledFormTitle = styled(Text)`
 `
 
 const FormTitleText: Record<ProcessStatus, string> = {
-  [ProcessStatus.Input]: 'Send',
+  [ProcessStatus.Input]: 'Deposit',
   [ProcessStatus.Confirm]: 'Confirm',
   [ProcessStatus.Submit]: 'Confirm',
   [ProcessStatus.Pending]: 'Confirm',

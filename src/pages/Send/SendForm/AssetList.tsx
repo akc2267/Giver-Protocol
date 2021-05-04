@@ -76,6 +76,7 @@ const AssetItem = ({
         if (oriAsset !== asset) {
           onChangeAmount({ value: '' })
         }
+        console.log('setting asset', asset)
         setAsset(asset)
         setShowModal(false)
       }}

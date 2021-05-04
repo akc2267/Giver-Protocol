@@ -9,7 +9,10 @@ import complete from 'images/complete.gif'
 
 import { COLOR, STYLE } from 'consts'
 
-import SendProcessStore, { ProcessStatus } from 'store/SendProcessStore'
+import
+  SendProcessStore,
+  { ProcessStatus }
+from 'store/SendProcessStore'
 
 import useSendValidate from 'hooks/useSendValidate'
 
@@ -19,7 +22,7 @@ import SendForm from './SendForm'
 import Confirm from './Confirm'
 import Finish from './Finish'
 import SendFormButton from './SendFormButton'
-import BlockChainNetwork from './BlockChainNetwork'
+// import BlockChainNetwork from './BlockChainNetwork'
 import FormImage from 'components/FormImage'
 import FinishButton from './FinishButton'
 
@@ -109,11 +112,14 @@ const Send = (): ReactElement => {
           </StyledProcessCircle>
         )
       default:
+        // return (
+        //   <div style={{ marginBottom: 60 }}>
+        //     <BlockChainNetwork />
+        //   </div>
+        // )
         return (
-          <div style={{ marginBottom: 60 }}>
-            <BlockChainNetwork />
-          </div>
-        )
+          <></>
+        );
     }
   }, [status])
 

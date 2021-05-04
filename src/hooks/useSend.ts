@@ -100,6 +100,7 @@ const useSend = (): UseSendType => {
 
   const initSendData = (): void => {
     setAsset(undefined)
+    // setAsset(SendStore.USTWallet.default)
     setToAddress('')
     setSendAmount('')
     setMemo('')
