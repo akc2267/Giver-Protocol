@@ -27,7 +27,7 @@ const useAsset = (): {
   const bscWhiteList = useRecoilValue(ContractStore.bscWhiteList)
 
   const setAssetList = useSetRecoilState(SendStore.loginUserAssetList)
-  const setUSTWallet = useSetRecoilState(SendStore.loginUserAssetList)
+  const setUSTWallet = useSetRecoilState(SendStore.loginUserUSTWallet)
 
   const { getTerraBalances } = useTerraBalance()
   const { getEtherBalances } = useEtherBaseBalance()

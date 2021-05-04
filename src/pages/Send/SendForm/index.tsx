@@ -118,6 +118,7 @@ const SendForm = ({
   }
 
   const onClickMaxButton = async (): Promise<void> => {
+    console.log('BALANCE', asset?.balance);
     console.log('BALANCE', USTWallet?.balance);
     const assetAmount = new BigNumber(USTWallet?.balance || 0)
     const terraTax = await getTerraSendTax({

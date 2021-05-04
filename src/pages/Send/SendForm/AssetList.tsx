@@ -172,6 +172,7 @@ const AssetList = ({
 
   const assetList = useRecoilValue(SendStore.loginUserAssetList)
   const setAsset = useSetRecoilState(SendStore.asset)
+  // const setUSTWallet = useSetRecoilState(SendStore.USTWallet)
   const [showModal, setShowModal] = useState(false)
   const [inputFilter, setInputFilter] = useState('')
 
@@ -193,11 +194,13 @@ const AssetList = ({
   useEffect(() => {
     if (_.some(assetList)) {
       if (selectedAsset) {
+        console.log('SETTING ASSET HERE', selectedAsset)
         setAsset(
           assetList.find((x) => x.symbol === selectedAsset.symbol) ||
             assetList[0]
         )
       } else {
+        console.log('SETTING ASSET HERE1111', assetList)
         setAsset(assetList[0])
       }
     }
