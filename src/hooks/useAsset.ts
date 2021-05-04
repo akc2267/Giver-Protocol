@@ -32,7 +32,7 @@ const useAsset = (): {
 
   const getTerraWhiteList = async (): Promise<WhiteListType> => {
     return {
-      ...ASSET.nativeDenoms,
+      // ...ASSET.nativeDenoms,
       ...terraWhiteList,
     }
   }
