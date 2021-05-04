@@ -260,7 +260,7 @@ const SendForm = ({
       <StyledFormSection>
         <Row>
           <Col>
-            <FormLabel title={'Asset'} />
+            <FormLabel title={'Charity'} />
           </Col>
           <RefreshButton />
         </Row>
