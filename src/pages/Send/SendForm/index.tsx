@@ -60,10 +60,10 @@ const SendForm = ({
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
   // Send Data
+  console.log('SendStore', SendStore)
   const asset = useRecoilValue(SendStore.asset)
   console.log('CURRENT ASSET', asset)
   const USTWallet = useRecoilValue(SendStore.USTWallet)
-  console.log('SendStore', SendStore)
   console.log('USTWallet', USTWallet)
   // const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
@@ -200,6 +200,13 @@ const SendForm = ({
   }, [])
 
   useEffect(() => {
+    if (isLoggedIn) {
+      // if user logs in, fetch their wallet
+      getUSTWallet();
+    }
+  }, [isLoggedIn])
+
+  useEffect(() => {
     onChangeAmount({ value: inputAmount })
     // getAssetList().then((): void => {
     //   dbcGetFeeInfoWithValidation.callback()
@@ -219,7 +226,7 @@ const SendForm = ({
             <FormLabel title={'Charity'} />
           </Col>
         </Row>
-        <AssetList {...{ selectedAsset: asset, onChangeAmount }} />
+        <AssetList {...{ selectedAsset: asset, USTWallet, onChangeAmount }} />
 
         <FormErrorMessage errorMessage={validationResult.errorMessage?.asset} />
       </StyledFormSection>

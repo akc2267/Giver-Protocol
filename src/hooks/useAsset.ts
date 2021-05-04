@@ -27,7 +27,8 @@ const useAsset = (): {
   const bscWhiteList = useRecoilValue(ContractStore.bscWhiteList)
 
   const setAssetList = useSetRecoilState(SendStore.loginUserAssetList)
-  const setUSTWallet = useSetRecoilState(SendStore.loginUserUSTWallet)
+  const setUSTWalletList = useSetRecoilState(SendStore.loginUserUSTWallet)
+  const setUSTWallet = useSetRecoilState(SendStore.USTWallet)
 
   const { getTerraBalances } = useTerraBalance()
   const { getEtherBalances } = useEtherBaseBalance()
@@ -69,7 +70,6 @@ const useAsset = (): {
     //   ASSET.USTasset
     // ]
 
-    console.log('assetList', assetList)
     let whiteList: WhiteListType = {}
     let balanceList: BalanceListType = {}
     if (isLoggedIn) {
@@ -78,7 +78,6 @@ const useAsset = (): {
         balanceList = await getTerraBalances({
           terraWhiteList: _.map(whiteList, (token) => ({ token })),
         });
-        console.log('ASSET BALANCE LIST', balanceList);
       } else if (fromBlockChain === BlockChainType.ethereum) {
         whiteList = ethWhiteList
         balanceList = await getEtherBalances({ whiteList })
@@ -108,10 +107,8 @@ const useAsset = (): {
           disabled,
         }
       })
-      console.log('setAssetList', pairList)
       setAssetList(pairList)
     } else {
-      console.log('setAssetList', fromList)
       setAssetList(fromList)
     }
   }
@@ -122,8 +119,6 @@ const useAsset = (): {
       ASSET.USTasset
     ]
 
-    console.log('getUSTWallet', assetList)
-    console.log('fromBlockChain', fromBlockChain)
     let whiteList: WhiteListType = {}
     let balanceList: BalanceListType = {}
     if (isLoggedIn) {
@@ -141,17 +136,11 @@ const useAsset = (): {
       }
     }
 
-    console.log('1', assetList)
-    console.log('2', whiteList)
-    console.log('3', balanceList)
-
     const fromList = setBalanceToAssetList({
       assetList,
       whiteList,
       balanceList,
     })
-
-    console.log('fromList', fromList)
 
     if (
       fromBlockChain !== toBlockChain &&
@@ -168,10 +157,11 @@ const useAsset = (): {
         }
       })
 
-      console.log('ust wallet', pairList)
-      setUSTWallet(pairList)
+      setUSTWalletList(pairList);
+      setUSTWallet(pairList[0]);
     } else {
-      setUSTWallet(fromList)
+      setUSTWalletList(fromList);
+      setUSTWallet(fromList[0]);
     }
   }
 

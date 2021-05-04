@@ -121,8 +121,8 @@ const SelectAssetButton = ({
   asset?: AssetType
   setShowModal: (value: boolean) => void
 }): ReactElement => {
-  const { formatBalance } = useAsset()
-  const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
+  // const { formatBalance } = useAsset()
+  // const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
   return (
     <StyledSelectAssetButton
@@ -141,7 +141,7 @@ const SelectAssetButton = ({
             <Text style={{ marginLeft: 10, fontSize: 16 }}>{asset.symbol}</Text>
           </Col>
           <Col style={{ justifyContent: 'flex-end' }}>
-            {isLoggedIn && (
+            {/* {isLoggedIn && (
               <Text
                 style={{
                   justifyContent: 'flex-end',
@@ -152,7 +152,7 @@ const SelectAssetButton = ({
               >
                 Available {asset.balance ? formatBalance(asset.balance) : '0'}
               </Text>
-            )}
+            )} */}
             <CaretDownFill style={{ fontSize: 8, marginTop: -2 }} />
           </Col>
         </Row>
@@ -163,16 +163,17 @@ const SelectAssetButton = ({
 
 const AssetList = ({
   selectedAsset,
+  USTWallet,
   onChangeAmount,
 }: {
   selectedAsset?: AssetType
+  USTWallet?: AssetType
   onChangeAmount: ({ value }: { value: string }) => void
 }): ReactElement => {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const assetList = useRecoilValue(SendStore.loginUserAssetList)
   const setAsset = useSetRecoilState(SendStore.asset)
-  // const setUSTWallet = useSetRecoilState(SendStore.USTWallet)
   const [showModal, setShowModal] = useState(false)
   const [inputFilter, setInputFilter] = useState('')
 
@@ -200,7 +201,7 @@ const AssetList = ({
             assetList[0]
         )
       } else {
-        console.log('SETTING ASSET HERE1111', assetList)
+        console.log('SETTING ASSET HERE111', assetList)
         setAsset(assetList[0])
       }
     }

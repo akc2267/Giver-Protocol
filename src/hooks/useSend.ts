@@ -122,6 +122,7 @@ const useSend = (): UseSendType => {
         gasPrices: { [_feeDenom]: gasPricesFromServer[_feeDenom] },
       })
       // tax
+      console.log('CHECK TAX')
       return UTIL.isNativeTerra(denom)
         ? lcd.utils.calculateTax(new Coin(denom, amount))
         : new Coin(_feeDenom, 0)
