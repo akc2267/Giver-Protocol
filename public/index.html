@@ -26,8 +26,30 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Giver Protocol</title>
+    <script src="js/app.js" defer></script>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet">
   </head>
   <body>
+    <div id="wrapper">
+          <div class="block-caption py-4 text-center text-md-left">
+            <h1 class="display-1 mb-6 mb-md-n1" style="color:white">Giver Protocol</h1>
+            <h2 class="display-1 mb-6 mb-md-n1">
+              <u class="text-center" data-delay="2000" data-words>
+                &nbsp;
+                <span class="text-anim-items">
+                  <span class="text-anim-item"><span>Save the World</span></span>
+                  <span class="text-anim-item"><span>Save for the Future</span></span>
+                  <span class="text-anim-item"><span>Save on Taxes</span></span>
+                </span>
+                <span class="anim-line"></span>
+              </span>
+              </u> 
+              </h2>
+          </div>
+  </div>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
@@ -42,3 +64,181 @@
     -->
   </body>
 </html>
+
+<style>
+[data-words] {
+  overflow-y: visible;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+[data-words]:after {
+  display: none !important;
+}
+
+.display-1{
+  text-align: center;
+}
+
+.text-anim-item {
+  white-space: nowrap;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  -webkit-transform: translate3d(0, -120%, 0);
+  transform: translate3d(0, -120%, 0);
+}
+
+.text-anim-item.anim-in {
+  -webkit-transform: translate3d(-50%, -120%, 0);
+  transform: translate3d(-50%, -120%, 0);
+  -webkit-animation: textAnimInCenter .6s .3s forwards;
+  animation: textAnimInCenter .6s .3s forwards;
+}
+
+.text-anim-item.anim-out {
+  -webkit-transform: translate3d(-50%, 0%, 0);
+  transform: translate3d(-50%, 0%, 0);
+  -webkit-animation: textAnimOutCenter .6s  forwards;
+  animation: textAnimOutCenter .6s  forwards;
+}
+
+@-webkit-keyframes textAnimIn {
+  0% {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 0%, 0);
+    transform: translate3d(0, 0%, 0);
+  }
+}
+
+@keyframes textAnimIn {
+  0% {
+    -webkit-transform: translate3d(0, -120%, 0);
+    transform: translate3d(0, -120%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 0%, 0);
+    transform: translate3d(0, 0%, 0);
+  }
+}
+
+@-webkit-keyframes textAnimOut {
+  0% {
+    -webkit-transform: translate3d(0, 0%, 0);
+    transform: translate3d(0, 0%, 0);
+  }
+
+  50% {
+    -webkit-transform: translate3d(0, -20%, 0);
+    transform: translate3d(0, -20%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+}
+
+@keyframes textAnimOut {
+  0% {
+    -webkit-transform: translate3d(0, 0%, 0);
+    transform: translate3d(0, 0%, 0);
+  }
+
+  50% {
+    -webkit-transform: translate3d(0, -20%, 0);
+    transform: translate3d(0, -20%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(0, 120%, 0);
+    transform: translate3d(0, 120%, 0);
+  }
+}
+
+@-webkit-keyframes textAnimInCenter {
+  0% {
+    -webkit-transform: translate3d(-50%, -120%, 0);
+    transform: translate3d(-50%, -120%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(-50%, 10%, 0);
+    transform: translate3d(-50%, 10%, 0);
+  }
+}
+
+@keyframes textAnimInCenter {
+  0% {
+    -webkit-transform: translate3d(-50%, -120%, 0);
+    transform: translate3d(-50%, -120%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(-50%, 10%, 0);
+    transform: translate3d(-50%, 10%, 0);
+  }
+}
+
+@-webkit-keyframes textAnimOutCenter {
+  0% {
+    -webkit-transform: translate3d(-50%, 0%, 0);
+    transform: translate3d(-50%, 0%, 0);
+  }
+
+  50% {
+    -webkit-transform: translate3d(-50%, -20%, 0);
+    transform: translate3d(-50%, -20%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(-50%, 120%, 0);
+    transform: translate3d(-50%, 120%, 0);
+  }
+}
+
+@keyframes textAnimOutCenter {
+  0% {
+    -webkit-transform: translate3d(-50%, 0%, 0);
+    transform: translate3d(-50%, 0%, 0);
+  }
+
+  50% {
+    -webkit-transform: translate3d(-50%, -20%, 0);
+    transform: translate3d(-50%, -20%, 0);
+  }
+
+  100% {
+    -webkit-transform: translate3d(-50%, 120%, 0);
+    transform: translate3d(-50%, 120%, 0);
+  }
+}
+
+.anim-line {
+  left: auto;
+}
+
+.anim-line {
+  position: absolute;
+  width: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 8px;
+  margin: 0 auto;
+  border-radius: 5px;
+  background: #ee7000;
+  -webkit-transition: opacity .3s linear, width .3s .4s;
+  transition: opacity .3s linear, width .3s .4s;
+}
+
+.anim-line.line-active {
+  opacity: 1;
+}
+
+</style>
