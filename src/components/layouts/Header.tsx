@@ -14,8 +14,6 @@ import AuthStore from 'store/AuthStore'
 import NetworkStore from 'store/NetworkStore'
 import FormImage from 'components/FormImage'
 
-import bridgeLogo from 'images/bridge_logo.png'
-
 const { walletLogo } = WALLET
 const StyledContainer = styled(Container)`
   max-width: 640px;
@@ -32,19 +30,6 @@ const StyledNav = styled.div`
   }
 `
 
-const StyledLogo = styled(Text)`
-  font-size: 0;
-  img {
-    width: 120px;
-    height: 30px;
-  }
-  @media (max-width: 575px) {
-    img {
-      width: 104px;
-      height: 26px;
-    }
-  }
-`
 
 const StyledAddress = styled(Text)`
   font-size: 12px;
@@ -191,9 +176,9 @@ const Header = (): ReactElement => {
   return (
     <StyledContainer>
       <StyledNav>
-        <StyledLogo>
-          <img src={bridgeLogo} alt="" />
-        </StyledLogo>
+        <StyledConnectedText style={{ color: '#DD794A' }}>
+          Giver Protocol
+        </StyledConnectedText>
         {isLoggedIn ? (
           <LoginUserInfo />
         ) : (

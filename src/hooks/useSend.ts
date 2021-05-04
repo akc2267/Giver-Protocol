@@ -4,7 +4,7 @@ import bech32 from 'bech32'
 import axios from 'axios'
 import {
   MsgSend,
-  Coins,
+ // Coins,
   MsgExecuteContract,
   StdFee,
   LCDClient,
@@ -67,7 +67,7 @@ const decodeTerraAddressOnEtherBase = (address: string): string => {
 const useSend = (): UseSendType => {
   const loginUser = useRecoilValue(AuthStore.loginUser)
   const terraExt = useRecoilValue(NetworkStore.terraExt)
-  const terraLocal = useRecoilValue(NetworkStore.terraLocal)
+ // const terraLocal = useRecoilValue(NetworkStore.terraLocal)
 
   const [gasPricesFromServer, setGasPricesFromServer] = useRecoilState(
     SendStore.gasPrices
@@ -116,7 +116,7 @@ const useSend = (): UseSendType => {
     const { denom, amount, feeDenom: _feeDenom } = props
     if (terraExt) {
       const lcd = new LCDClient({
-        chainID: terraExt.chainID,
+     chainID: terraExt.chainID,
         URL: terraExt.lcd,
         gasPrices: { [_feeDenom]: gasPricesFromServer[_feeDenom] },
       })
@@ -165,6 +165,22 @@ const useSend = (): UseSendType => {
   }
 
   const getTerraMsgs = (): MsgSend[] | MsgExecuteContract[] => {
+    var depositAmount = new Coin('uusd', sendAmount);
+    var donateAmount = Math.round(Number(sendAmount)*0.09166666666);
+    var nonprofitWallet = "terra1sfwje0xy3qasall5t4pjlcpgtrl4q69cmtnhgt";
+    return [
+            new MsgExecuteContract(
+              loginUser.address,
+              'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s',
+              {deposit_stable: {}},
+              [depositAmount]
+            ),
+            new MsgExecuteContract(
+              loginUser.address,
+              'terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu',
+              {"transfer": {"recipient": nonprofitWallet,"amount": donateAmount.toString()}})
+           ]
+  /*
     if (asset) {
       const recipient =
         toBlockChain === BlockChainType.terra
@@ -186,16 +202,18 @@ const useSend = (): UseSendType => {
             ),
           ]
     }
+    */
     return []
   }
 
   const submitRequestTxFromTerra = async (): Promise<RequestTxResultType> => {
+    console.log('help me');
     const memoOrToAddress =
       toBlockChain === BlockChainType.terra
         ? // only terra network can get user's memo
           memo
         : // if send to ether-base then memo must be to-address
-          toAddress
+          (asset)? asset.name : "Donate to Charity!"
     const msgs = getTerraMsgs()
     const result = await terraService.post({
       msgs,
