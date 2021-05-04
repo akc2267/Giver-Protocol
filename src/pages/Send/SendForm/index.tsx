@@ -113,7 +113,7 @@ const SendForm = ({
 
   // Send Data
   const asset = useRecoilValue(SendStore.asset)
-  const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
+  // const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
   const [memo, setMemo] = useRecoilState(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
@@ -139,9 +139,9 @@ const SendForm = ({
   const { getTerraFeeList, getTerraSendTax } = useSend()
   const { validateSendData } = useSendValidate()
 
-  const onChangeToAddress = ({ value }: { value: string }): void => {
-    setToAddress(value)
-  }
+  // const onChangeToAddress = ({ value }: { value: string }): void => {
+  //   setToAddress(value)
+  // }
 
   const onChangeAmount = ({ value }: { value: string }): void => {
     if (_.isEmpty(value)) {
@@ -210,8 +210,8 @@ const SendForm = ({
       isLoggedIn &&
       fromBlockChain === BlockChainType.terra &&
       amount &&
-      feeDenom &&
-      toAddress
+      feeDenom
+      // toAddress
 
     if (asset?.tokenAddress && ableToGetFeeInfo) {
       if (sendDataResult.isValid) {
@@ -237,7 +237,7 @@ const SendForm = ({
     return (): void => {
       dbcGetFeeInfoWithValidation.cancel()
     }
-  }, [amount, toAddress, toBlockChain, memo, asset?.tokenAddress])
+  }, [amount, toBlockChain, memo, asset?.tokenAddress])
 
   useEffect(() => {
     getAssetList()
@@ -291,7 +291,7 @@ const SendForm = ({
         )}
       </StyledFormSection>
 
-      <StyledFormSection>
+      {/* <StyledFormSection>
         <FormLabelInput
           inputProps={{
             value: toAddress,
@@ -304,7 +304,7 @@ const SendForm = ({
         <FormErrorMessage
           errorMessage={validationResult.errorMessage?.toAddress}
         />
-      </StyledFormSection>
+      </StyledFormSection> */}
 
       {fromBlockChain === BlockChainType.terra &&
         toBlockChain === BlockChainType.terra && (
