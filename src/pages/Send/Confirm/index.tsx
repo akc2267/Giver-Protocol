@@ -82,7 +82,7 @@ const Confirm = (): ReactElement => {
 
   // Send Data
   const asset = useRecoilValue(SendStore.asset)
-  const toAddress = useRecoilValue(SendStore.toAddress)
+  //const toAddress = useRecoilValue(SendStore.toAddress)
   const amount = useRecoilValue(SendStore.amount)
   // const memo = useRecoilValue(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
@@ -93,7 +93,7 @@ const Confirm = (): ReactElement => {
   const tax = useRecoilValue(SendStore.tax)
   // const feeDenom = useRecoilValue<AssetNativeDenomEnum>(SendStore.feeDenom)
   const shuttleFee = useRecoilValue(SendStore.shuttleFee)
-  const amountAfterShuttleFee = useRecoilValue(SendStore.amountAfterShuttleFee)
+  //const amountAfterShuttleFee = useRecoilValue(SendStore.amountAfterShuttleFee)
 
   const requestTxResult = useRecoilValue(SendProcessStore.requestTxResult)
 
@@ -112,7 +112,6 @@ const Confirm = (): ReactElement => {
           <StyledSecDText>{asset?.symbol}</StyledSecDText>
         </StyledSecD>
       </StyledSection>
-
       {/* {fromBlockChain === BlockChainType.terra &&
         toBlockChain === BlockChainType.terra && (
           <StyledSection>
@@ -122,12 +121,12 @@ const Confirm = (): ReactElement => {
             </StyledSecD>
           </StyledSection>
         )} */}
-      <StyledSection>
+      {/*<StyledSection>
         <StyledSecH>Destination Address</StyledSecH>
         <StyledSecD>
           <StyledSecDText>{UTIL.truncate(toAddress, [15, 15])}</StyledSecDText>
         </StyledSecD>
-      </StyledSection>
+      </StyledSection>*/}
 
       {fromBlockChain === BlockChainType.terra && (
         <StyledSection style={{ flexDirection: 'column', paddingBottom: 0 }}>
@@ -166,29 +165,24 @@ const Confirm = (): ReactElement => {
       )}
 
       <StyledSection>
-        {fromBlockChain === BlockChainType.terra &&
-        (toBlockChain === BlockChainType.ethereum ||
-          toBlockChain === BlockChainType.bsc) ? (
           <StyledSpaceBetween>
-            <StyledSecH>After Shuttle Fee (estimated)</StyledSecH>
+            <StyledSecH>Savings Deposit Amount</StyledSecH>
             <StyledSecD>
-              <StyledSecDText
-                isError={amountAfterShuttleFee.isLessThanOrEqualTo(0)}
-              >
-                {`${formatBalance(amountAfterShuttleFee)} UST`}
-              </StyledSecDText>
-            </StyledSecD>
-          </StyledSpaceBetween>
-        ) : (
-          <StyledSpaceBetween>
-            <StyledSecH>Receive amount</StyledSecH>
-            <StyledSecD>
-              <StyledSecDText>{`${formatBalance((parseInt(amount)-80000).toString())} ${
+              <StyledSecDText>{`${formatBalance((Math.round(parseInt(amount)*.9167)-80000).toString())} ${
                 'UST'
               }`}</StyledSecDText>
             </StyledSecD>
           </StyledSpaceBetween>
-        )}
+      </StyledSection>
+      <StyledSection>
+          <StyledSpaceBetween>
+            <StyledSecH>Charity Donation Amount</StyledSecH>
+            <StyledSecD>
+              <StyledSecDText>{`${formatBalance(Math.round(parseInt(amount)*.0833).toString())} ${
+                'UST'
+              }`}</StyledSecDText>
+            </StyledSecD>
+          </StyledSpaceBetween>
       </StyledSection>
 
       {requestTxResult?.success && (
