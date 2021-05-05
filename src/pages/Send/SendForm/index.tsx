@@ -254,7 +254,8 @@ const SendForm = ({
               inputProps={{
                 style: {
                   // fontSize: 12,
-                  color: 'green'
+                  color: 'green',
+                  fontWeight: 'bold'
                 },
                 type: 'number',
                 value: (parseInt(inputAmount) * 1.1).toFixed(0),
@@ -271,7 +272,8 @@ const SendForm = ({
               inputProps={{
                 style: {
                   // fontSize: 12,
-                  color: 'green'
+                  color: 'green',
+                  fontWeight: 'bold'
                 },
                 type: 'number',
                 value: (parseInt(inputAmount) * .1).toFixed(0),
