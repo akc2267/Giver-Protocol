@@ -10,7 +10,7 @@ import { BlockChainType } from 'types/network'
 import { ValidateItemResultType, ValidateResultType } from 'types/send'
 
 import useAsset from './useAsset'
-import { NETWORK } from 'consts'
+// import { NETWORK } from 'consts'
 
 const useSendValidate = (): {
   validateFee: () => ValidateItemResultType
@@ -19,14 +19,15 @@ const useSendValidate = (): {
   const { formatBalance } = useAsset()
 
   // Send Data
-  const asset = useRecoilValue(SendStore.asset)
+  // const asset = useRecoilValue(SendStore.USTWallet)
   const toAddress = useRecoilValue(SendStore.toAddress)
   const amount = useRecoilValue(SendStore.amount)
   const memo = useRecoilValue(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
   const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
 
-  const assetList = useRecoilValue(SendStore.loginUserAssetList)
+  // const assetList = useRecoilValue(SendStore.loginUserAssetList)
+  const USTWallet = useRecoilValue(SendStore.USTWallet)
   const feeDenom = useRecoilValue(SendStore.feeDenom)
 
   const gasFee = useRecoilValue(SendStore.gasFee)
@@ -36,11 +37,11 @@ const useSendValidate = (): {
     if (fromBlockChain === BlockChainType.terra) {
       const sendAmount = new BigNumber(amount)
       const selectedAssetAmount = new BigNumber(
-        assetList.find((x) => x.tokenAddress === asset?.tokenAddress)
-          ?.balance || '0'
+        USTWallet?.balance || '0'
       )
+
       const gasFeeIfSameDenomWithSendAsset =
-        asset?.tokenAddress === feeDenom ? gasFee : new BigNumber(0)
+      USTWallet?.tokenAddress === feeDenom ? gasFee : new BigNumber(0)
       const taxAmount = new BigNumber(tax?.amount.toString() || 0)
 
       if (
@@ -59,12 +60,12 @@ const useSendValidate = (): {
   }
 
   const validateAsset = (): ValidateItemResultType => {
-    if (asset?.disabled) {
-      return {
-        isValid: false,
-        errorMessage: `${asset.symbol} is not available on ${NETWORK.blockChainName[toBlockChain]}`,
-      }
-    }
+    // if (asset?.disabled) {
+    //   return {
+    //     isValid: false,
+    //     errorMessage: `${asset.symbol} is not available on ${NETWORK.blockChainName[toBlockChain]}`,
+    //   }
+    // }
 
     return { isValid: true }
   }
@@ -85,14 +86,21 @@ const useSendValidate = (): {
   }
 
   const validateToAddress = (): ValidateItemResultType => {
+    console.log('toAddress', toAddress)
     if (_.isEmpty(toAddress)) {
       return { isValid: false, errorMessage: '' }
     }
-
+    
+    console.log('NOT EMPTY');
+    console.log('blocj', toBlockChain === BlockChainType.terra);
+    console.log('toBlockChain', toBlockChain);
+    console.log('AccAddress', AccAddress);
     const validAddress =
       toBlockChain === BlockChainType.terra
         ? AccAddress.validate(toAddress)
         : ethers.utils.isAddress(toAddress)
+
+        console.log('validAddress', validAddress);
 
     if (false === validAddress) {
       return { isValid: false, errorMessage: 'Invalid address' }
@@ -122,8 +130,7 @@ const useSendValidate = (): {
     }
 
     const selectedAssetAmount = new BigNumber(
-      assetList.find((x) => x.tokenAddress === asset?.tokenAddress)?.balance ||
-        '0'
+      USTWallet?.balance || '0'
     )
     if (selectedAssetAmount.isLessThanOrEqualTo(0)) {
       return {
@@ -149,6 +156,11 @@ const useSendValidate = (): {
     const amountValidResult = validateAmount()
     const memoValidResult = validateMemo()
     const assetValidResult = validateAsset()
+
+    console.log('toAddressValidResult', toAddressValidResult);
+    console.log('amountValidResult', amountValidResult);
+    console.log('memoValidResult', memoValidResult);
+    console.log('assetValidResult', assetValidResult);
 
     return {
       isValid: _.every(

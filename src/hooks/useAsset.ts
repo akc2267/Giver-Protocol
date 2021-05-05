@@ -15,6 +15,7 @@ import ContractStore from 'store/ContractStore'
 
 const useAsset = (): {
   getAssetList: () => Promise<void>
+  getUSTWallet: () => Promise<void>
   formatBalance: (balance: string | BigNumber) => string
 } => {
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
@@ -26,13 +27,15 @@ const useAsset = (): {
   const bscWhiteList = useRecoilValue(ContractStore.bscWhiteList)
 
   const setAssetList = useSetRecoilState(SendStore.loginUserAssetList)
+  const setUSTWalletList = useSetRecoilState(SendStore.loginUserUSTWallet)
+  const setUSTWallet = useSetRecoilState(SendStore.USTWallet)
 
   const { getTerraBalances } = useTerraBalance()
   const { getEtherBalances } = useEtherBaseBalance()
 
   const getTerraWhiteList = async (): Promise<WhiteListType> => {
     return {
-      // ...ASSET.nativeDenoms,
+      ...ASSET.nativeDenoms,
       ...terraWhiteList,
     }
   }
@@ -63,6 +66,10 @@ const useAsset = (): {
 
   const getAssetList = async (): Promise<void> => {
     const assetList = ASSET.assetList
+    // const assetList = [
+    //   ASSET.USTasset
+    // ]
+
     let whiteList: WhiteListType = {}
     let balanceList: BalanceListType = {}
     if (isLoggedIn) {
@@ -71,7 +78,6 @@ const useAsset = (): {
         balanceList = await getTerraBalances({
           terraWhiteList: _.map(whiteList, (token) => ({ token })),
         });
-        console.log('BALANCE LIST', balanceList);
       } else if (fromBlockChain === BlockChainType.ethereum) {
         whiteList = ethWhiteList
         balanceList = await getEtherBalances({ whiteList })
@@ -107,6 +113,58 @@ const useAsset = (): {
     }
   }
 
+  const getUSTWallet = async (): Promise<void> => {
+    // const assetList = ASSET.assetList
+    const assetList = [
+      ASSET.USTasset
+    ]
+
+    let whiteList: WhiteListType = {}
+    let balanceList: BalanceListType = {}
+    if (isLoggedIn) {
+      if (fromBlockChain === BlockChainType.terra) {
+        whiteList = await getTerraWhiteList()
+        balanceList = await getTerraBalances({
+          terraWhiteList: _.map(whiteList, (token) => ({ token })),
+        });
+      } else if (fromBlockChain === BlockChainType.ethereum) {
+        whiteList = ethWhiteList
+        balanceList = await getEtherBalances({ whiteList })
+      } else if (fromBlockChain === BlockChainType.bsc) {
+        whiteList = bscWhiteList
+        balanceList = await getEtherBalances({ whiteList })
+      }
+    }
+
+    const fromList = setBalanceToAssetList({
+      assetList,
+      whiteList,
+      balanceList,
+    })
+
+    if (
+      fromBlockChain !== toBlockChain &&
+      [BlockChainType.ethereum, BlockChainType.bsc].includes(toBlockChain)
+    ) {
+      const toWhiteList =
+        toBlockChain === BlockChainType.ethereum ? ethWhiteList : bscWhiteList
+
+      const pairList = _.map(fromList, (item) => {
+        const disabled = _.isEmpty(toWhiteList[item.symbol])
+        return {
+          ...item,
+          disabled,
+        }
+      })
+
+      setUSTWalletList(pairList);
+      setUSTWallet(pairList[0]);
+    } else {
+      setUSTWalletList(fromList);
+      setUSTWallet(fromList[0]);
+    }
+  }
+
   const formatBalance = (balance: string | BigNumber): string => {
     if (balance) {
       const bnBalance =
@@ -126,6 +184,7 @@ const useAsset = (): {
 
   return {
     getAssetList,
+    getUSTWallet,
     formatBalance,
   }
 }
