@@ -141,14 +141,14 @@ const Confirm = (): ReactElement => {
               </StyledSecD>
             </StyledSpaceBetween>
           )}
-          {/* <StyledSpaceBetween style={{ marginBottom: 16 }}>
+          { <StyledSpaceBetween style={{ marginBottom: 16 }}>
             <StyledSecH>GAS Fee</StyledSecH>
             <StyledSecD>
               <StyledSecDText2>
-                {`${formatBalance(gasFee)} ${ASSET.symbolOfDenom[feeDenom]}`}
+                {`0.08 UST`}
               </StyledSecDText2>
             </StyledSecD>
-          </StyledSpaceBetween> */}
+          </StyledSpaceBetween> }
 
           {shuttleFee &&
             (toBlockChain === BlockChainType.ethereum ||
@@ -183,7 +183,7 @@ const Confirm = (): ReactElement => {
           <StyledSpaceBetween>
             <StyledSecH>Receive amount</StyledSecH>
             <StyledSecD>
-              <StyledSecDText>{`${formatBalance(amount)} ${
+              <StyledSecDText>{`${formatBalance((parseInt(amount)-80000).toString())} ${
                 'UST'
               }`}</StyledSecDText>
             </StyledSecD>

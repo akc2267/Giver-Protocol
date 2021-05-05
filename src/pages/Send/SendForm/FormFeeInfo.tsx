@@ -160,7 +160,7 @@ const FormFeeInfo = ({
                 </Row>
               )}
 
-              {/* <Row style={{ paddingTop: 6, paddingBottom: 6, margin: 0 }}>
+              { <Row style={{ paddingTop: 6, paddingBottom: 6, margin: 0 }}>
                 <Col style={{ padding: 0 }}>
                   <Text style={{ paddingRight: 10, color: COLOR.skyGray }}>
                     GAS Fee
@@ -170,13 +170,13 @@ const FormFeeInfo = ({
                   <Text
                     style={{
                       justifyContent: 'flex-end',
-                      paddingRight: 10,
+                      paddingRight: 0,
                       opacity: 0.8,
                     }}
                   >
-                    {formatBalance(gasFee)}
+                    {formatBalance("80000")+` UST`}
                   </Text>
-                  <FormSelect
+                  {/*<FormSelect
                     selectedValue={feeDenom}
                     size={'sm'}
                     optionList={optionList}
@@ -197,9 +197,9 @@ const FormFeeInfo = ({
                     menuContainerStyle={{
                       borderRadius: 3,
                     }}
-                  />
+                  />*/}
                 </Col>
-              </Row> */}
+              </Row> }
               <div style={{ justifyContent: 'flex-end' }}>
                 <FormErrorMessage
                   errorMessage={feeValidationResult.errorMessage}
