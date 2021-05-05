@@ -11,7 +11,7 @@ import { AssetNativeDenomEnum, AssetSymbolEnum } from 'types/asset'
 
 import { Text, Col, Row } from 'components'
 import FormLabel from 'components/FormLabel'
-import FormSelect from 'components/FormSelect'
+// import FormSelect from 'components/FormSelect'
 import FormErrorMessage from 'components/FormErrorMessage'
 
 import useAsset from 'hooks/useAsset'
@@ -36,7 +36,7 @@ const FormFeeInfo = ({
 
   // Computed data from Send data
   const gasFeeList = useRecoilValue(SendStore.gasFeeList)
-  const [gasFee, setGasFee] = useRecoilState(SendStore.gasFee)
+  const setGasFee = useSetRecoilState(SendStore.gasFee)
   const setFee = useSetRecoilState(SendStore.fee)
   const tax = useRecoilValue(SendStore.tax)
   const [feeDenom, setFeeDenom] = useRecoilState<AssetNativeDenomEnum>(
@@ -51,7 +51,7 @@ const FormFeeInfo = ({
 
   const { formatBalance } = useAsset()
 
-  const [optionList, setOptionList] = useState<
+  const [, setOptionList] = useState<
     {
       label: AssetSymbolEnum
       value: AssetNativeDenomEnum
@@ -160,7 +160,7 @@ const FormFeeInfo = ({
                 </Row>
               )}
 
-              <Row style={{ paddingTop: 6, paddingBottom: 6, margin: 0 }}>
+              {/* <Row style={{ paddingTop: 6, paddingBottom: 6, margin: 0 }}>
                 <Col style={{ padding: 0 }}>
                   <Text style={{ paddingRight: 10, color: COLOR.skyGray }}>
                     GAS Fee
@@ -199,7 +199,7 @@ const FormFeeInfo = ({
                     }}
                   />
                 </Col>
-              </Row>
+              </Row> */}
               <div style={{ justifyContent: 'flex-end' }}>
                 <FormErrorMessage
                   errorMessage={feeValidationResult.errorMessage}

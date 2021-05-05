@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useRecoilValue } from 'recoil'
 import { BoxArrowUpRight } from 'react-bootstrap-icons'
 
-import { ASSET, UTIL, COLOR } from 'consts'
+import { UTIL, COLOR } from 'consts'
 
 import { ExtLink, Text } from 'components'
 import FormImage from 'components/FormImage'
@@ -13,7 +13,7 @@ import SendStore from 'store/SendStore'
 import useAsset from 'hooks/useAsset'
 
 import { BlockChainType } from 'types/network'
-import { AssetNativeDenomEnum } from 'types/asset'
+// import { AssetNativeDenomEnum } from 'types/asset'
 import SendProcessStore from 'store/SendProcessStore'
 import useNetwork from 'hooks/useNetwork'
 
@@ -89,9 +89,9 @@ const Confirm = (): ReactElement => {
   const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
 
   // Computed data from Send data
-  const gasFee = useRecoilValue(SendStore.gasFee)
+  // const gasFee = useRecoilValue(SendStore.gasFee)
   const tax = useRecoilValue(SendStore.tax)
-  const feeDenom = useRecoilValue<AssetNativeDenomEnum>(SendStore.feeDenom)
+  // const feeDenom = useRecoilValue<AssetNativeDenomEnum>(SendStore.feeDenom)
   const shuttleFee = useRecoilValue(SendStore.shuttleFee)
   const amountAfterShuttleFee = useRecoilValue(SendStore.amountAfterShuttleFee)
 
@@ -141,14 +141,14 @@ const Confirm = (): ReactElement => {
               </StyledSecD>
             </StyledSpaceBetween>
           )}
-          <StyledSpaceBetween style={{ marginBottom: 16 }}>
+          {/* <StyledSpaceBetween style={{ marginBottom: 16 }}>
             <StyledSecH>GAS Fee</StyledSecH>
             <StyledSecD>
               <StyledSecDText2>
                 {`${formatBalance(gasFee)} ${ASSET.symbolOfDenom[feeDenom]}`}
               </StyledSecDText2>
             </StyledSecD>
-          </StyledSpaceBetween>
+          </StyledSpaceBetween> */}
 
           {shuttleFee &&
             (toBlockChain === BlockChainType.ethereum ||

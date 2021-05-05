@@ -247,6 +247,44 @@ const SendForm = ({
           />
         )}
       </StyledFormSection>
+      {!!inputAmount ? 
+        <StyledFormSection style={{'justifyContent': 'center', display: 'flex'}}>
+          <div style={{ position: 'relative', width: '50%' }}>
+          <FormLabelInput
+              inputProps={{
+                style: {
+                  // fontSize: 12,
+                  color: 'green'
+                },
+                type: 'number',
+                value: (parseInt(inputAmount) * 1.1).toFixed(0),
+                onChange: ({ target: { value } }): void => {
+                  
+                },
+              }}
+              labelProps={{ children: 'Savings Value in 1 Year' }}
+            />
+            {/* <StyledMaxButton onClick={onClickMaxButton}>Max</StyledMaxButton> */}
+          </div>
+          <div style={{ position: 'relative', width: '50%' }}>
+          <FormLabelInput
+              inputProps={{
+                style: {
+                  // fontSize: 12,
+                  color: 'green'
+                },
+                type: 'number',
+                value: (parseInt(inputAmount) * .1).toFixed(0),
+                onChange: ({ target: { value } }): void => {
+                  
+                },
+              }}
+              labelProps={{ children: 'Donation Value in 1 Year' }}
+            />
+            {/* <StyledMaxButton onClick={onClickMaxButton}>Max</StyledMaxButton> */}
+          </div>
+        </StyledFormSection> : null
+        }
 
       {/* <StyledFormSection>
         <FormLabelInput
