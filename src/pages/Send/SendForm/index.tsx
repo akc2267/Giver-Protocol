@@ -257,8 +257,8 @@ const SendForm = ({
                   color: 'green',
                   fontWeight: 'bold'
                 },
-                type: 'number',
-                value: (parseInt(inputAmount) * 1.1).toFixed(0),
+                type: 'string',
+                value: `$${(parseInt(inputAmount) * 1.1).toFixed(0)}`,
                 onChange: ({ target: { value } }): void => {
                   
                 },
@@ -275,8 +275,8 @@ const SendForm = ({
                   color: 'green',
                   fontWeight: 'bold'
                 },
-                type: 'number',
-                value: (parseInt(inputAmount) * .1).toFixed(0),
+                type: 'string',
+                value: `$${(parseInt(inputAmount) * .1).toFixed(0)}`,
                 onChange: ({ target: { value } }): void => {
                   
                 },
