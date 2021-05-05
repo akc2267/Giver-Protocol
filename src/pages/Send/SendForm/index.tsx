@@ -60,12 +60,8 @@ const SendForm = ({
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
   // Send Data
-  console.log('SendStore', SendStore)
   const asset = useRecoilValue(SendStore.asset)
-  console.log('CURRENT ASSET', asset)
   const USTWallet = useRecoilValue(SendStore.USTWallet)
-  console.log('USTWallet', USTWallet)
-  // const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
   const [memo, setMemo] = useRecoilState(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
@@ -118,8 +114,6 @@ const SendForm = ({
   }
 
   const onClickMaxButton = async (): Promise<void> => {
-    console.log('BALANCE', asset?.balance);
-    console.log('BALANCE', USTWallet?.balance);
     const assetAmount = new BigNumber(USTWallet?.balance || 0)
     const terraTax = await getTerraSendTax({
       denom: USTWallet?.tokenAddress as AssetNativeDenomEnum,
@@ -158,6 +152,7 @@ const SendForm = ({
   // It's for Fee(gas), Tax and ShuttleFee
   const dbcGetFeeInfoWithValidation = useDebouncedCallback(async () => {
     const sendDataResult = validateSendData()
+    console.log('sendDataResult', sendDataResult)
     setValidationResult(sendDataResult)
 
     const ableToGetFeeInfo =

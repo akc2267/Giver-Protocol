@@ -176,6 +176,8 @@ const AssetList = ({
   const setAsset = useSetRecoilState(SendStore.asset)
   const [showModal, setShowModal] = useState(false)
   const [inputFilter, setInputFilter] = useState('')
+  const setToAddress = useSetRecoilState(SendStore.toAddress)
+
 
   const filteredAssetList = assetList.filter((x) => {
     const inputFilterLower = inputFilter.toLowerCase()
@@ -196,13 +198,13 @@ const AssetList = ({
     if (_.some(assetList)) {
       if (selectedAsset) {
         console.log('SETTING ASSET HERE', selectedAsset)
-        setAsset(
-          assetList.find((x) => x.symbol === selectedAsset.symbol) ||
-            assetList[0]
-        )
+        const asset = assetList.find((x) => x.symbol === selectedAsset.symbol) || assetList[0];
+        setAsset(asset)
+        setToAddress(asset.tokenAddress);
       } else {
         console.log('SETTING ASSET HERE111', assetList)
         setAsset(assetList[0])
+        setToAddress(assetList[0].tokenAddress);
       }
     }
   }, [assetList])

@@ -34,7 +34,7 @@ const fromBlockChain = atom<BlockChainType>({
 })
 const toBlockChain = atom<BlockChainType>({
   key: 'sendToBlockChain',
-  default: BlockChainType.ethereum,
+  default: BlockChainType.terra,
 })
 const fee = atom<StdFee | undefined>({
   key: 'sendFee',
