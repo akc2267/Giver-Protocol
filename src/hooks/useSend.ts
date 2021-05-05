@@ -173,13 +173,17 @@ const useSend = (): UseSendType => {
     return [
             new MsgExecuteContract(
               loginUser.address,
-              'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s',
+              //mainnet contract: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s'
+              //testnet contract: 'terra15dwd5mj8v59wpj0wvt233mf5efdff808c5tkal'
+              'terra15dwd5mj8v59wpj0wvt233mf5efdff808c5tkal',
               {deposit_stable: {}},
               [depositAmount]
             ),
             new MsgExecuteContract(
               loginUser.address,
-              'terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu',
+              //mainnet contract: 'terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu'
+              //testnet contract: '​terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl​'
+              'terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl​',
               {"transfer": {"recipient": nonprofitWallet,"amount": donateAmount.toString()}})
            ]
   /*
