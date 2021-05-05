@@ -88,6 +88,8 @@ const Footer = (): ReactElement => {
         </Col>
       </Row>
     </StyledContainer>
+    <StyledContainer>
+    </StyledContainer>
     </div>
   )
 }
