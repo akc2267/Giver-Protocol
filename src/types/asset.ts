@@ -10,6 +10,8 @@ export enum AssetSymbolEnum {
   DWB = 'Doctors Without Borders',
   CATF = 'Clean Air Task Force',
   AI = 'Amnesty International',
+  UNI = 'UNICEF',
+  C4I = 'Coalition for Integrity',
   // Luna = 'Luna',
   UST = 'UST',
   // KRT = 'KRT',

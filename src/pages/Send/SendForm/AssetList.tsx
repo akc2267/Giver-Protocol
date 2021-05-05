@@ -13,8 +13,8 @@ import DefaultModal from 'components/Modal'
 import FormInput from 'components/FormInput'
 import FormImage from 'components/FormImage'
 
-import useAsset from 'hooks/useAsset'
-import AuthStore from 'store/AuthStore'
+// import useAsset from 'hooks/useAsset'
+// import AuthStore from 'store/AuthStore'
 import SendStore from 'store/SendStore'
 
 const StyledContainer = styled.div`
@@ -66,9 +66,9 @@ const AssetItem = ({
   onChangeAmount: ({ value }: { value: string }) => void
 }): ReactElement => {
   const [oriAsset, setAsset] = useRecoilState(SendStore.asset)
-  const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
+  // const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
-  const { formatBalance } = useAsset()
+  // const { formatBalance } = useAsset()
 
   return (
     <StyledAssetItem
@@ -102,13 +102,13 @@ const AssetItem = ({
             </Text>
           </div>
         </Col>
-        {isLoggedIn && (
+        {/* {isLoggedIn && (
           <Col style={{ alignSelf: 'center' }}>
             <Text style={{ justifyContent: 'flex-end', fontSize: 14 }}>
               {asset.balance ? formatBalance(asset.balance) : '0'}{' '}
             </Text>
           </Col>
-        )}
+        )} */}
       </Row>
     </StyledAssetItem>
   )
