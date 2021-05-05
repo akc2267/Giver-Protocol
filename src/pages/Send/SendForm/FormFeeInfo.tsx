@@ -31,7 +31,7 @@ const FormFeeInfo = ({
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
   // Send Data
-  const asset = useRecoilValue(SendStore.asset)
+  // const asset = useRecoilValue(SendStore.asset)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
 
   // Computed data from Send data
@@ -154,7 +154,7 @@ const FormFeeInfo = ({
                     <Text
                       style={{ justifyContent: 'flex-end', opacity: '0.8' }}
                     >
-                      {formatBalance(tax.amount.toString())} {asset?.symbol}
+                      {formatBalance(tax.amount.toString())} {'UST'}
                     </Text>
                   </Col>
                 </Row>
@@ -225,7 +225,7 @@ const FormFeeInfo = ({
                       <Text
                         style={{ justifyContent: 'flex-end', opacity: '0.8' }}
                       >
-                        {`${formatBalance(shuttleFee)} ${asset?.symbol}`}
+                        {`${formatBalance(shuttleFee)} UST`}
                       </Text>
                     </Col>
                   </Row>
@@ -252,7 +252,7 @@ const FormFeeInfo = ({
                         }}
                       >
                         {`${formatBalance(amountAfterShuttleFee)} ${
-                          asset?.symbol
+                          'UST'
                         }`}
                       </Text>
                     </Col>

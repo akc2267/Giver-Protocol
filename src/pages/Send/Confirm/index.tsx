@@ -84,7 +84,7 @@ const Confirm = (): ReactElement => {
   const asset = useRecoilValue(SendStore.asset)
   const toAddress = useRecoilValue(SendStore.toAddress)
   const amount = useRecoilValue(SendStore.amount)
-  const memo = useRecoilValue(SendStore.memo)
+  // const memo = useRecoilValue(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
   const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
 
@@ -102,7 +102,7 @@ const Confirm = (): ReactElement => {
   return (
     <StyledContainer>
       <StyledSection>
-        <StyledSecH>Asset</StyledSecH>
+        <StyledSecH>Charity</StyledSecH>
         <StyledSecD>
           <FormImage
             src={asset?.loguURI || ''}
@@ -113,7 +113,7 @@ const Confirm = (): ReactElement => {
         </StyledSecD>
       </StyledSection>
 
-      {fromBlockChain === BlockChainType.terra &&
+      {/* {fromBlockChain === BlockChainType.terra &&
         toBlockChain === BlockChainType.terra && (
           <StyledSection>
             <StyledSecH>Memo</StyledSecH>
@@ -121,7 +121,7 @@ const Confirm = (): ReactElement => {
               <Text>{memo}</Text>
             </StyledSecD>
           </StyledSection>
-        )}
+        )} */}
       <StyledSection>
         <StyledSecH>Destination Address</StyledSecH>
         <StyledSecD>
@@ -136,7 +136,7 @@ const Confirm = (): ReactElement => {
               <StyledSecH>Tax</StyledSecH>
               <StyledSecD>
                 <StyledSecDText2>
-                  {formatBalance(tax.amount.toString())} {asset?.symbol}
+                  {formatBalance(tax.amount.toString())} {'UST'}
                 </StyledSecDText2>
               </StyledSecD>
             </StyledSpaceBetween>
@@ -175,7 +175,7 @@ const Confirm = (): ReactElement => {
               <StyledSecDText
                 isError={amountAfterShuttleFee.isLessThanOrEqualTo(0)}
               >
-                {`${formatBalance(amountAfterShuttleFee)} ${asset?.symbol}`}
+                {`${formatBalance(amountAfterShuttleFee)} UST`}
               </StyledSecDText>
             </StyledSecD>
           </StyledSpaceBetween>
@@ -184,7 +184,7 @@ const Confirm = (): ReactElement => {
             <StyledSecH>Receive amount</StyledSecH>
             <StyledSecD>
               <StyledSecDText>{`${formatBalance(amount)} ${
-                asset?.symbol
+                'UST'
               }`}</StyledSecDText>
             </StyledSecD>
           </StyledSpaceBetween>

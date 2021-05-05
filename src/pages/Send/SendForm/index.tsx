@@ -63,7 +63,7 @@ const SendForm = ({
   const asset = useRecoilValue(SendStore.asset)
   const USTWallet = useRecoilValue(SendStore.USTWallet)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
-  const [memo, setMemo] = useRecoilState(SendStore.memo)
+  // const [memo, setMemo] = useRecoilState(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
   const fromBlockChain = useRecoilValue(SendStore.fromBlockChain)
 
@@ -109,9 +109,9 @@ const SendForm = ({
     }
   }
 
-  const onChangeMemo = ({ value }: { value: string }): void => {
-    setMemo(value)
-  }
+  // const onChangeMemo = ({ value }: { value: string }): void => {
+  //   setMemo(value)
+  // }
 
   const onClickMaxButton = async (): Promise<void> => {
     const assetAmount = new BigNumber(USTWallet?.balance || 0)
@@ -186,7 +186,7 @@ const SendForm = ({
     return (): void => {
       dbcGetFeeInfoWithValidation.cancel()
     }
-  }, [amount, toBlockChain, memo, USTWallet?.tokenAddress])
+  }, [amount, toBlockChain, USTWallet?.tokenAddress])
 
   useEffect(() => {
     console.log('running effect')
@@ -263,7 +263,7 @@ const SendForm = ({
         />
       </StyledFormSection> */}
 
-      {fromBlockChain === BlockChainType.terra &&
+      {/* {fromBlockChain === BlockChainType.terra &&
         toBlockChain === BlockChainType.terra && (
           <StyledFormSection>
             <FormLabelInput
@@ -279,7 +279,7 @@ const SendForm = ({
               errorMessage={validationResult.errorMessage?.memo}
             />
           </StyledFormSection>
-        )}
+        )} */}
 
       {/* only if from terra */}
       <FormFeeInfo feeValidationResult={feeValidationResult} />
