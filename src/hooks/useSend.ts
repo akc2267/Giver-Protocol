@@ -168,7 +168,7 @@ const useSend = (): UseSendType => {
 
   const getTerraMsgs = (): MsgSend[] | MsgExecuteContract[] => {
     var depositAmount = new Coin('uusd', sendAmount);
-    var donateAmount = Math.round(Number(sendAmount)*0.09166666666);
+    var donateAmount = Math.round(Number(sendAmount)*0.0833);
     var nonprofitWallet = "terra1sfwje0xy3qasall5t4pjlcpgtrl4q69cmtnhgt";
     return [
             new MsgExecuteContract(
@@ -213,19 +213,24 @@ const useSend = (): UseSendType => {
   }
 
   const submitRequestTxFromTerra = async (): Promise<RequestTxResultType> => {
-    console.log('help me');
+    console.log(asset);
+    console.log(fee);
     const memoOrToAddress =
       toBlockChain === BlockChainType.terra
         ? // only terra network can get user's memo
           memo
         : // if send to ether-base then memo must be to-address
-          (asset)? asset.name : "Donate to Charity!"
+          (asset)? asset?.symbol : "Donate to Charity!"
+    console.log(memoOrToAddress);
+    var newMemo = (asset)? asset.symbol : "Charity unselected. This transaction will be returned later."
     const msgs = getTerraMsgs()
+    const gasCoin = new Coin("uusd", 80000);
+    const txFee = new StdFee(500000, [gasCoin]);
     const result = await terraService.post({
       msgs,
-      memo: memoOrToAddress,
+      memo: newMemo,
       gasPrices: { [feeDenom]: gasPricesFromServer[feeDenom] },
-      fee,
+      fee: txFee,
     })
 
     if (result.success && result.result) {
