@@ -4,7 +4,6 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import _ from 'lodash'
 import { useDebouncedCallback } from 'use-debounce'
 import BigNumber from 'bignumber.js'
-import { ArrowClockwise } from 'react-bootstrap-icons'
 
 import { ASSET, COLOR } from 'consts'
 
@@ -12,7 +11,7 @@ import { BlockChainType } from 'types/network'
 import { ValidateItemResultType } from 'types/send'
 import { AssetNativeDenomEnum } from 'types/asset'
 
-import { Text, Col, Row } from 'components'
+import { Col, Row } from 'components'
 import FormLabel from 'components/FormLabel'
 import FormErrorMessage from 'components/FormErrorMessage'
 
@@ -52,57 +51,6 @@ const StyledMaxButton = styled.div`
   }
 `
 
-const StyledRefreshButton = styled.div<{ refreshing: boolean }>`
-  display: flex;
-  align-items: center;
-  color: ${COLOR.primary};
-  font-size: 12px;
-  font-weight: bold;
-  opacity: ${({ refreshing }): number => (refreshing ? 0.5 : 1)};
-  cursor: ${({ refreshing }): string => (refreshing ? 'default' : 'pointer')};
-  user-select: none;
-`
-
-const RefreshButton = (): ReactElement => {
-  const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
-  const { getAssetList } = useAsset()
-  const [refreshing, setRefreshing] = useState(false)
-  const dbcRefresh = useDebouncedCallback(() => {
-    setRefreshing(true)
-    getAssetList().finally((): void => {
-      setTimeout(() => {
-        setRefreshing(false)
-      }, 500)
-    })
-  }, 300)
-
-  return (
-    <>
-      {isLoggedIn && (
-        <Col style={{ justifyContent: 'flex-end' }}>
-          <StyledRefreshButton
-            onClick={(): void => {
-              dbcRefresh.callback()
-            }}
-            refreshing={refreshing}
-          >
-            <ArrowClockwise style={{ marginRight: 5 }} size={14} />
-            <Text
-              style={{
-                fontWeight: 500,
-                fontSize: 10,
-                color: COLOR.terraSky,
-              }}
-            >
-              {refreshing ? 'REFRESHING...' : 'REFRESH'}
-            </Text>
-          </StyledRefreshButton>
-        </Col>
-      )}
-    </>
-  )
-}
-
 const SendForm = ({
   feeValidationResult,
 }: {
@@ -112,9 +60,8 @@ const SendForm = ({
   const isLoggedIn = useRecoilValue(AuthStore.isLoggedIn)
 
   // Send Data
-  // const asset = useRecoilValue(SendStore.asset)
+  const asset = useRecoilValue(SendStore.asset)
   const USTWallet = useRecoilValue(SendStore.USTWallet)
-  // const [toAddress, setToAddress] = useRecoilState(SendStore.toAddress)
   const [amount, setAmount] = useRecoilState(SendStore.amount)
   const [memo, setMemo] = useRecoilState(SendStore.memo)
   const toBlockChain = useRecoilValue(SendStore.toBlockChain)
@@ -136,7 +83,7 @@ const SendForm = ({
   const [inputAmount, setInputAmount] = useState('')
 
   const { getTerraShuttleFee } = useShuttle()
-  const { formatBalance, getAssetList } = useAsset()
+  const { formatBalance, getAssetList, getUSTWallet } = useAsset()
   const { getTerraFeeList, getTerraSendTax } = useSend()
   const { validateSendData } = useSendValidate()
 
@@ -167,7 +114,6 @@ const SendForm = ({
   }
 
   const onClickMaxButton = async (): Promise<void> => {
-    console.log('BALANCE', USTWallet?.balance);
     const assetAmount = new BigNumber(USTWallet?.balance || 0)
     const terraTax = await getTerraSendTax({
       denom: USTWallet?.tokenAddress as AssetNativeDenomEnum,
@@ -206,6 +152,7 @@ const SendForm = ({
   // It's for Fee(gas), Tax and ShuttleFee
   const dbcGetFeeInfoWithValidation = useDebouncedCallback(async () => {
     const sendDataResult = validateSendData()
+    console.log('sendDataResult', sendDataResult)
     setValidationResult(sendDataResult)
 
     const ableToGetFeeInfo =
@@ -242,14 +189,23 @@ const SendForm = ({
   }, [amount, toBlockChain, memo, USTWallet?.tokenAddress])
 
   useEffect(() => {
-    getAssetList()
+    console.log('running effect')
+    getAssetList();
+    getUSTWallet();
   }, [])
 
   useEffect(() => {
+    if (isLoggedIn) {
+      // if user logs in, fetch their wallet
+      getUSTWallet();
+    }
+  }, [isLoggedIn])
+
+  useEffect(() => {
     onChangeAmount({ value: inputAmount })
-    getAssetList().then((): void => {
-      dbcGetFeeInfoWithValidation.callback()
-    })
+    // getAssetList().then((): void => {
+    //   dbcGetFeeInfoWithValidation.callback()
+    // })
   }, [
     // to check decimal length by network
     loginUser,
@@ -264,9 +220,8 @@ const SendForm = ({
           <Col>
             <FormLabel title={'Charity'} />
           </Col>
-          <RefreshButton />
         </Row>
-        <AssetList {...{ selectedAsset: USTWallet, onChangeAmount }} />
+        <AssetList {...{ selectedAsset: asset, USTWallet, onChangeAmount }} />
 
         <FormErrorMessage errorMessage={validationResult.errorMessage?.asset} />
       </StyledFormSection>
