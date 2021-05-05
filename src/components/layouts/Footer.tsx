@@ -28,22 +28,38 @@ const StyledText = styled(Text)`
   letter-spacing: -0.22px;
 `
 
+const StyledText1 = styled(Text)`
+  font-size: 8px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: -0.22px;
+`
+
 const Footer = (): ReactElement => {
   const community = [
     {
-      href: `https://docs.mirror.finance/user-guide/terra-bridge`,
-      title: 'DOCS',
-    },
-    {
-      href: `https://github.com/terra-project/bridge-web-app`,
+      href: `https://github.com/akc2267/Giver-Protocol`,
       title: 'Github',
     },
   ]
   return (
+    <div>
+    <StyledContainer>
+          <h5 style={{color:'#ADD8E6'}}>* How this works:<br/><h6 style={{fontSize:'10px', color:'#ADD8E6'}}>
+          100% of your selected UST is deposited into Anchor Protocol, where it will earn stable 20% APY.<br/>
+           Immediately after deposit, 8.33% of your deposit will be donated to the selected charity.<br/>
+           After 1 year, your savings deposit is expected to be worth 110% and your donation to be 10% of initial deposit<br/>
+           Donations are sent to a wallet controlled by Team Archon with the selected charity in the Memo field.<br/>
+           If Team Archon is unable to get the charity to accept your crypto donation, we will return your donation minus fees.
+           </h6></h5>
+    </StyledContainer>
     <StyledContainer>
       <Row>
         <Col>
-          <StyledText>© Terraform Labs.</StyledText>
+          <StyledText>© Team Archon.
+          </StyledText>
         </Col>
         {community.map(
           ({ href, title }) =>
@@ -65,6 +81,14 @@ const Footer = (): ReactElement => {
         )}
       </Row>
     </StyledContainer>
+    <StyledContainer>
+      <Row>
+        <Col>
+          <StyledText1>When High Templars (Charities) merge with Dark Templars (DeFi Degens), incredibly powerful change is created.</StyledText1>
+        </Col>
+      </Row>
+    </StyledContainer>
+    </div>
   )
 }
 

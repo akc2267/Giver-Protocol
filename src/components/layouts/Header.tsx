@@ -177,7 +177,7 @@ const Header = (): ReactElement => {
     <StyledContainer>
       <StyledNav>
         <StyledConnectedText style={{ color: '#DD794A' }}>
-          Giver Protocol
+          Earn 10% APY. Donate 10% APY. Save up to 37% on taxes.*
         </StyledConnectedText>
         {isLoggedIn ? (
           <LoginUserInfo />
