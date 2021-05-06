@@ -145,7 +145,7 @@ const Finish = (): ReactElement => {
               wordBreak: 'break-all',
             }}
           >
-            ${formatBalance(displayAmount)} deposited<br/> benefiting {asset?.symbol}
+            ${formatBalance(displayAmount)} deposited, benefiting<br/> {asset?.symbol}
           </Text>
         </div>
         {fromBlockChain === BlockChainType.terra &&
