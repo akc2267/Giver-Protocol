@@ -117,7 +117,7 @@ const Finish = (): ReactElement => {
         </StyledInfoText>
       ) : (
         <StyledInfoText>
-          {`Deposited $${formatBalance(displayAmount)} to generate 10% apy savings for you and 10% apy donation for ${asset?.symbol}.\nTransaction submitted via ${loginUser.walletType}`}
+          {`Deposited $${formatBalance(displayAmount)} to generate 10% apy savings for you and 10% apy donation for ${asset?.symbol}.\nTo access savings, please visit AnchorProtocol.com and connect your wallet.\nTransaction submitted via ${loginUser.walletType}`}
         </StyledInfoText>
       )}
 
