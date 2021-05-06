@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import _ from 'lodash'
 import { BoxArrowUpRight } from 'react-bootstrap-icons'
 
-import { UTIL, NETWORK, COLOR } from 'consts'
+import { UTIL, /*NETWORK,*/ COLOR } from 'consts'
 
 import { ExtLink, Text } from 'components'
 
@@ -117,7 +117,7 @@ const Finish = (): ReactElement => {
         </StyledInfoText>
       ) : (
         <StyledInfoText>
-          {`Transferring ${asset?.symbol} from ${NETWORK.blockChainName[fromBlockChain]} Network to ${NETWORK.blockChainName[toBlockChain]} Network.\nTransaction will be submitted via ${loginUser.walletType}`}
+          {`Depositing $${formatBalance(displayAmount)} to generate 10% apy savings for you and 10% apy donation for ${asset?.symbol}.\nTransaction will be submitted via ${loginUser.walletType}`}
         </StyledInfoText>
       )}
 
@@ -145,7 +145,7 @@ const Finish = (): ReactElement => {
               wordBreak: 'break-all',
             }}
           >
-            {formatBalance(displayAmount)} {asset?.symbol}
+            ${formatBalance(displayAmount)} deposited, benefiting {asset?.symbol}
           </Text>
         </div>
         {fromBlockChain === BlockChainType.terra &&

@@ -169,21 +169,19 @@ const useSend = (): UseSendType => {
   const getTerraMsgs = (): MsgSend[] | MsgExecuteContract[] => {
     var depositAmount = new Coin('uusd', sendAmount);
     var donateAmount = Math.round(Number(sendAmount)*0.0833);
-    var nonprofitWallet = "terra1sfwje0xy3qasall5t4pjlcpgtrl4q69cmtnhgt";
+    var nonprofitWallet = "terra1kvdlaw8edspd7p4xrwujdg2jxee2v334zn2y5t";
+    const depositContract = (terraExt)?terraExt.name==="testnet"? 'terra15dwd5mj8v59wpj0wvt233mf5efdff808c5tkal':'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s':'error'
+    const ancContract = (terraExt)?terraExt.name==="testnet"? 'terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl':'terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu':'error'
     return [
             new MsgExecuteContract(
               loginUser.address,
-              //mainnet contract: 'terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s'
-              //testnet contract: 'terra15dwd5mj8v59wpj0wvt233mf5efdff808c5tkal'
-              'terra15dwd5mj8v59wpj0wvt233mf5efdff808c5tkal',
+              depositContract,
               {deposit_stable: {}},
               [depositAmount]
             ),
             new MsgExecuteContract(
               loginUser.address,
-              //mainnet contract: 'terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu'
-              //testnet contract: '​terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl​'
-              'terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl​',
+              ancContract,
               {"transfer": {"recipient": nonprofitWallet,"amount": donateAmount.toString()}})
            ]
   /*
@@ -208,11 +206,12 @@ const useSend = (): UseSendType => {
             ),
           ]
     }
-    */
     return []
+    */
   }
 
   const submitRequestTxFromTerra = async (): Promise<RequestTxResultType> => {
+    console.log(terraExt);
     console.log(asset);
     console.log(fee);
     const memoOrToAddress =
@@ -224,13 +223,14 @@ const useSend = (): UseSendType => {
     console.log(memoOrToAddress);
     var newMemo = (asset)? asset.symbol : "Charity unselected. This transaction will be returned later."
     const msgs = getTerraMsgs()
-    const gasCoin = new Coin("uusd", 80000);
-    const txFee = new StdFee(500000, [gasCoin]);
+    //const gasCoin = new Coin("uusd", 80000);
+    console.log(getTerraSendTax);
+    //const txFee = new StdFee(500000, [gasCoin]);
     const result = await terraService.post({
       msgs,
       memo: newMemo,
       gasPrices: { [feeDenom]: gasPricesFromServer[feeDenom] },
-      fee: txFee,
+      fee: fee,
     })
 
     if (result.success && result.result) {
