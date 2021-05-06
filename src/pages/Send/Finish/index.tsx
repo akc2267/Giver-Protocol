@@ -117,7 +117,7 @@ const Finish = (): ReactElement => {
         </StyledInfoText>
       ) : (
         <StyledInfoText>
-          {`Deposited $${formatBalance(displayAmount)} to generate 10% apy savings for you and 10% apy donation for ${asset?.symbol}.\nTo access savings, please visit AnchorProtocol.com and connect your wallet.\nTransaction submitted via ${loginUser.walletType}`}
+          {`Deposited $${formatBalance(displayAmount)} to generate 10% apy savings for you and 10% apy donation for ${asset?.symbol}.\nTo access savings, please visit `}<a href="https://app.anchorprotocol.com/earn">Anchor Protocol</a>{` and connect your wallet.\nTransaction submitted via ${loginUser.walletType}`}
         </StyledInfoText>
       )}
 
@@ -136,7 +136,7 @@ const Finish = (): ReactElement => {
             alignItems: 'center',
           }}
         >
-          <FormImage src={asset?.loguURI || ''} size={24} />
+          <FormImage src={asset?.loguURI || ''} size={100} />
           <Text
             style={{
               fontSize: 22,
