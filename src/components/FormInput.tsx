@@ -19,6 +19,9 @@ const StyledInput = styled.input`
   :focus {
     outline: none;
   }
+  ::placeholder {
+    color: white;
+  }
 `
 
 const FormInput = (

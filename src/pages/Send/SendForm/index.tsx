@@ -254,7 +254,7 @@ const SendForm = ({
               inputProps={{
                 style: {
                   // fontSize: 12,
-                  color: 'green',
+                  color: '#42f581',
                   fontWeight: 'bold'
                 },
                 type: 'string',
@@ -272,7 +272,7 @@ const SendForm = ({
               inputProps={{
                 style: {
                   // fontSize: 12,
-                  color: 'green',
+                  color: '#42f581',
                   fontWeight: 'bold'
                 },
                 type: 'string',
