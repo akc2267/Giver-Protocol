@@ -97,7 +97,7 @@ const AssetItem = ({
             <Text style={{ fontSize: 14, fontWeight: 500 }}>
               {asset.symbol}
             </Text>
-            <Text style={{ color: COLOR.blueGray, fontSize: 12 }}>
+            <Text style={{ color: 'white', fontSize: 10 }}>
               {asset.name}
             </Text>
           </div>
@@ -219,7 +219,7 @@ const AssetList = ({
             setShowModal(false)
           },
         }}
-        header={<Text style={{ justifyContent: 'center' }}>Select Asset</Text>}
+        header={<Text style={{ justifyContent: 'center' }}>Select Charity</Text>}
       >
         <StyledContainer>
           <div

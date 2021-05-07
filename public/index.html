@@ -43,10 +43,10 @@
                   <span class="text-anim-item"><span>Save for the Future</span></span>
                   <span class="text-anim-item"><span>Save on Taxes</span></span>
                 </span>
-                <span class="anim-line"></span>
               </span>
-              </u> 
-              </h2>
+            </u> 
+          </h2>
+          <span class="anim-line"></span>
           </div>
   </div>
 
@@ -83,6 +83,7 @@
 .text-anim-item {
   white-space: nowrap;
   position: absolute;
+  color: #62B6CB;
   left: 50%;
   top: 0;
   -webkit-transform: translate3d(0, -120%, 0);
@@ -221,6 +222,7 @@
 
 .anim-line {
   left: auto;
+  width: 550px;
 }
 
 .anim-line {
@@ -232,10 +234,16 @@
   height: 8px;
   margin: 0 auto;
   border-radius: 5px;
-  background: #ee7000;
+  background: #1B4965;
   -webkit-transition: opacity .3s linear, width .3s .4s;
   transition: opacity .3s linear, width .3s .4s;
 }
+/* 
+CAE9FF - Lightest
+BEE9E8
+62B6CB
+5FA8D3
+1B4965 - Darkest */
 
 .anim-line.line-active {
   opacity: 1;

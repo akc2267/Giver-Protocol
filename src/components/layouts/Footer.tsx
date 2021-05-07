@@ -25,6 +25,7 @@ const StyledText = styled(Text)`
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
+  color: #1B4965;
   letter-spacing: -0.22px;
 `
 
@@ -34,6 +35,7 @@ const StyledText1 = styled(Text)`
   font-stretch: normal;
   font-style: normal;
   line-height: normal;
+  color: #1B4965;
   letter-spacing: -0.22px;
 `
 
@@ -47,7 +49,7 @@ const Footer = (): ReactElement => {
   return (
     <div>
     <StyledContainer>
-          <h5 style={{color:'#ADD8E6'}}>* How this works:<br/><h6 style={{fontSize:'10px', color:'#ADD8E6'}}>
+          <h5 style={{color:'#1B4965'}}>* How this works:<br/><h6 style={{fontSize:'10px', color:'#1B4965'}}>
           100% of your selected UST is deposited into Anchor Protocol, where it will earn stable 20% APY.<br/>
            Immediately after deposit, 8.33% of your deposit will be donated to the selected charity.<br/>
            After 1 year, your savings deposit is expected to be worth 110% and your donation to be 10% of initial deposit<br/>

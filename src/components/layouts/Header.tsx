@@ -151,7 +151,7 @@ const LoginUserInfo = (): ReactElement => {
           >
             {isTestnet ? (
               <>
-                <StyledConnectedText style={{ color: '#DD794A' }}>
+                <StyledConnectedText style={{ color: '#5FA8D3' }}>
                   Connected to TESTNET
                 </StyledConnectedText>
               </>
@@ -176,7 +176,7 @@ const Header = (): ReactElement => {
   return (
     <StyledContainer>
       <StyledNav>
-        <StyledConnectedText style={{ color: '#DD794A' }}>
+        <StyledConnectedText style={{ color: '#5FA8D3' }}>
           Earn 10% APY. Donate 10% APY. Save up to 37% on taxes.*
         </StyledConnectedText>
         {isLoggedIn ? (
